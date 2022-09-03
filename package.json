@@ -1,7 +1,7 @@
 {
   "name": "threejs-study",
   "version": "1.0.0",
-  "description": "",
+  "description": "Three.js를 이용해 익산을 3D로 표현해보자",
   "main": "index.js",
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack --progress",
@@ -29,5 +29,13 @@
   "dependencies": {
     "gsap": "^3.11.0",
     "three": "^0.144.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mementocoder/Iksan3D.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mementocoder/Iksan3D/issues"
+  },
+  "homepage": "https://github.com/mementocoder/Iksan3D#readme"
 }
