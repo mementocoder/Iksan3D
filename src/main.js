@@ -8,8 +8,8 @@ const textureLoader = new THREE.TextureLoader();
 const floorTexture = textureLoader.load('/images/grid.png');
 floorTexture.wrapS = THREE.RepeatWrapping;
 floorTexture.wrapT = THREE.RepeatWrapping;
-floorTexture.repeat.x = 14;
-floorTexture.repeat.y = 14;
+floorTexture.repeat.x = 26;
+floorTexture.repeat.y = 26;
 
 const mainTexture = textureLoader.load('/images/main.png');
 mainTexture.wrapS = THREE.RepeatWrapping;
@@ -73,11 +73,12 @@ const meshes = [];
 const floorMesh = new THREE.Mesh(
 	new THREE.PlaneGeometry(150, 150),
 	new THREE.MeshStandardMaterial({
-		map: floorTexture
+		map: floorTexture,
 	})
 );
 floorMesh.name = 'floor';
 floorMesh.rotation.x = -Math.PI/2;
+floorMesh.rotation.z = 0.45;
 floorMesh.position.z = 60;
 floorMesh.receiveShadow = true;
 scene.add(floorMesh);
@@ -86,11 +87,13 @@ meshes.push(floorMesh);
 const mainMesh = new THREE.Mesh(
 	new THREE.PlaneGeometry(10, 10),
 	new THREE.MeshStandardMaterial({
-		map: mainTexture
+		map: mainTexture,
+        transparent: true
 	})
 );
 mainMesh.name = 'main';
 mainMesh.rotation.x = -Math.PI/2;
+mainMesh.rotation.z = 0.45;
 mainMesh.position.y = 0.01;
 mainMesh.receiveShadow = true;
 scene.add(mainMesh);
@@ -98,13 +101,12 @@ scene.add(mainMesh);
 const pointerMesh = new THREE.Mesh(
 	new THREE.PlaneGeometry(1, 1),
 	new THREE.MeshBasicMaterial({
-		color: 'crimson',
 		transparent: true,
-		opacity: 0.5
+		opacity: 0
 	})
 );
 pointerMesh.rotation.x = -Math.PI/2;
-pointerMesh.position.y = 0.02;
+pointerMesh.position.y = 0;
 pointerMesh.receiveShadow = true;
 scene.add(pointerMesh);
 
