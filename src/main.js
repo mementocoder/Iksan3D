@@ -71,7 +71,7 @@ scene.add(directionalLight);
 // Mesh
 const meshes = [];
 const floorMesh = new THREE.Mesh(
-	new THREE.PlaneGeometry(150, 150),
+	new THREE.PlaneGeometry(60, 100),
 	new THREE.MeshStandardMaterial({
 		map: floorTexture,
 	})
@@ -79,7 +79,8 @@ const floorMesh = new THREE.Mesh(
 floorMesh.name = 'floor';
 floorMesh.rotation.x = -Math.PI/2;
 floorMesh.rotation.z = 0.45;
-floorMesh.position.z = 60;
+floorMesh.position.x = 25;
+floorMesh.position.z = 30;
 floorMesh.receiveShadow = true;
 scene.add(floorMesh);
 meshes.push(floorMesh);
@@ -97,6 +98,20 @@ mainMesh.rotation.z = 0.45;
 mainMesh.position.y = 0.01;
 mainMesh.receiveShadow = true;
 scene.add(mainMesh);
+
+const spotMesh1 = new THREE.Mesh(
+	new THREE.PlaneGeometry(3, 3),
+	new THREE.MeshStandardMaterial({
+		color: 'yellow',
+		transparent: true,
+		opacity: 0.5
+	})
+);
+spotMesh1.position.set(13, 0.005, 6);
+spotMesh1.rotation.x = -Math.PI/2;
+spotMesh1.rotation.z = 0.45;
+spotMesh1.receiveShadow = true;
+scene.add(spotMesh1);
 
 const pointerMesh = new THREE.Mesh(
 	new THREE.PlaneGeometry(1, 1),
