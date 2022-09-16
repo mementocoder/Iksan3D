@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { Player } from "./Player";
-import { Meshes } from "./Mesh";
+import { DecoMesh } from "./DecoMesh";
 //import gsap from 'gsap';
 
 // Texture - Grid
@@ -66,12 +66,8 @@ directionalLight.shadow.camera.far = 100;
 scene.add(directionalLight);
 
 // Mesh
-// Floor Mesh - Deco
-const meshDecoList = [];
 
-const mainTexture = textureLoader.load("/images/main.png");
-mainTexture.wrapS = THREE.RepeatWrapping;
-mainTexture.wrapT = THREE.RepeatWrapping;
+scene.add(DecoMesh());
 
 // Floor Mesh - stand(3d) Deco
 const meshStandList = [];
@@ -100,29 +96,6 @@ floorMesh.position.z = 30;
 floorMesh.receiveShadow = true;
 scene.add(floorMesh);
 meshes.push(floorMesh);
-
-const mainMesh = new THREE.Mesh(
-  new THREE.PlaneGeometry(10, 10),
-  new THREE.MeshStandardMaterial({
-    map: mainTexture,
-    transparent: true,
-  })
-);
-mainMesh.name = "main";
-mainMesh.rotation.x = -Math.PI / 2;
-mainMesh.rotation.z = 0.45;
-mainMesh.position.y = 0.01;
-mainMesh.receiveShadow = true;
-scene.add(mainMesh);
-
-const BASE_TEXT_IMG_PATH = "/images/";
-const imageList = [{ path: "main.png", x1: 10, y1: 10, x2: 5, y2: 5 }];
-
-for (const img of imageList) {
-  const text = new Meshes(`${BASE_TEXT_IMG_PATH}${img.path}`, textureLoader);
-  const _spotMeshText = text.setMesh(img.x1, img.y1, img.x2, img.y2);
-  scene.add(_spotMeshText);
-}
 
 const spotMesh1 = new THREE.Mesh(
   new THREE.PlaneGeometry(3, 3),
@@ -264,28 +237,28 @@ function raycasting() {
 }
 
 // 마우스 이벤트
-canvas.addEventListener("mousedown", e => {
+canvas.addEventListener("mousedown", (e) => {
   isPressed = true;
   calculateMousePosition(e);
 });
 canvas.addEventListener("mouseup", () => {
   isPressed = false;
 });
-canvas.addEventListener("mousemove", e => {
+canvas.addEventListener("mousemove", (e) => {
   if (isPressed) {
     calculateMousePosition(e);
   }
 });
 
 // 터치 이벤트
-canvas.addEventListener("touchstart", e => {
+canvas.addEventListener("touchstart", (e) => {
   isPressed = true;
   calculateMousePosition(e.touches[0]);
 });
 canvas.addEventListener("touchend", () => {
   isPressed = false;
 });
-canvas.addEventListener("touchmove", e => {
+canvas.addEventListener("touchmove", (e) => {
   if (isPressed) {
     calculateMousePosition(e.touches[0]);
   }
