@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { Player } from "./Player";
-import { DecoMesh } from "./DecoMesh";
+import { Meshes } from "./Mesh";
 //import gsap from 'gsap';
 
 // Texture - Grid
@@ -66,21 +66,6 @@ directionalLight.shadow.camera.far = 100;
 scene.add(directionalLight);
 
 // Mesh
-
-scene.add(DecoMesh());
-
-// Floor Mesh - stand(3d) Deco
-const meshStandList = [];
-
-// Floor Mesh - Easter Egg
-const meshEasterList = [];
-
-// Story Mesh - Story
-const meshstoryList = [];
-
-// Story Mesh - Area
-const meshGridList = [];
-
 const meshes = []; // 추후 코드 수정 필요
 const floorMesh = new THREE.Mesh(
   new THREE.PlaneGeometry(60, 100),
@@ -96,6 +81,49 @@ floorMesh.position.z = 30;
 floorMesh.receiveShadow = true;
 scene.add(floorMesh);
 meshes.push(floorMesh);
+
+const meshList = {
+  deco: [{ path: "마룡테스트.gif", width: 3, height: 3, pX: 0, pY: 0, pZ: 0 }],
+  stand: [
+    { path: "main.png", width: 10, height: 10, pX: 5, pY: 3, pZ: 0 },
+    { path: "main.png", width: 4, height: 4, pX: 3, pY: 3, pZ: 7 },
+  ],
+  easterEgg: [],
+  story: [],
+  arear: [],
+};
+
+const BASE_TEXT_IMG_PATH = "/images/";
+
+meshList.deco.map((img) => {
+  const text = new Meshes(`${BASE_TEXT_IMG_PATH}${img.path}`, textureLoader);
+  const _spotMeshText = text.setMesh(
+    img.width,
+    img.height,
+    img.pX,
+    img.pY,
+    img.pZ
+  );
+  _spotMeshText.rotation.x = -Math.PI / 2;
+  _spotMeshText.rotation.z = 0.45;
+  scene.add(_spotMeshText);
+});
+
+meshList.stand.map((img) => {
+  const text = new Meshes(`${BASE_TEXT_IMG_PATH}${img.path}`, textureLoader);
+  const _spotMeshText = text.setMesh(
+    img.width,
+    img.height,
+    img.pX,
+    img.pY,
+    img.pZ
+  );
+  _spotMeshText.rotation.x = 0;
+  _spotMeshText.rotation.y = 0.47;
+  // _spotMeshText.receiveShadow = true;
+  // _spotMeshText.castShadow = true;
+  scene.add(_spotMeshText);
+});
 
 const spotMesh1 = new THREE.Mesh(
   new THREE.PlaneGeometry(3, 3),
