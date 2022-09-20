@@ -95,13 +95,13 @@ const meshList = {
     { path: "나무테스트.png", width: 2, height: 2, pX: 15, pY: 1, pZ: 6 },
     { path: "나무테스트.png", width: 2, height: 2, pX: 18, pY: 1, pZ: 6 },
   ],
-  arear: [],
 };
 
 const BASE_TEXT_IMG_PATH = "/images/";
 
 // 그냥 땅바닥 이미지
-meshList.deco.map(img => {
+const decoMesh = [];
+meshList.deco.map((img) => {
   const text = new Meshes(`${BASE_TEXT_IMG_PATH}${img.path}`, textureLoader);
   const _spotMeshText = text.setMesh(
     img.width,
@@ -112,11 +112,13 @@ meshList.deco.map(img => {
   );
   _spotMeshText.rotation.x = -Math.PI / 2;
   _spotMeshText.rotation.z = 0.45;
+  decoMesh.push(_spotMeshText);
   scene.add(_spotMeshText);
 });
 
 // 세운 이미지
-meshList.stand.map(img => {
+const standMesh = [];
+meshList.stand.map((img) => {
   const text = new Meshes(`${BASE_TEXT_IMG_PATH}${img.path}`, textureLoader);
   const _spotMeshText = text.setMesh(
     img.width,
@@ -127,12 +129,15 @@ meshList.stand.map(img => {
   );
   _spotMeshText.rotation.x = 0;
   _spotMeshText.rotation.y = 0.47;
+  _spotMeshText.castShadow = true;
+
+  standMesh.push(_spotMeshText);
   scene.add(_spotMeshText);
 });
 
 // 영역 들어갔을때 뿅 올라오는 이미지
 const storyMesh = [];
-meshList.story.map(img => {
+meshList.story.map((img) => {
   const text = new Meshes(`${BASE_TEXT_IMG_PATH}${img.path}`, textureLoader);
   const _spotMeshText = text.setMesh(
     img.width,
@@ -143,6 +148,7 @@ meshList.story.map(img => {
   );
   _spotMeshText.rotation.x = 0;
   _spotMeshText.rotation.y = 0.47;
+  _spotMeshText.castShadow = true;
   _spotMeshText.visible = false;
   // _spotMeshText.visible = false;
   storyMesh.push(_spotMeshText);
@@ -204,7 +210,7 @@ const player = new Player({
   scene,
   meshes,
   gltfLoader,
-  modelSrc: "/models/maryong.glb",
+  modelSrc: "/models/ilbuni.glb",
 });
 
 const raycaster = new THREE.Raycaster();
@@ -321,7 +327,6 @@ function checkIntersects() {
       destinationPoint.y = 0.3; // 하늘 날고 땅으로 꺼지는게 아닌 평면상에서만 움직이므로, x, z로만 움직여, y는 일분이 키에 맞게 적절히 잘 맞춰준거(배꼽정도)
       destinationPoint.z = item.point.z;
       player.modelMesh.lookAt(destinationPoint); // 일분이가 마우스 좌표쪽을 바라봄
-
       // console.log(item.point)
 
       player.moving = true; // 움직이는 상태니 true로 해줌
@@ -361,7 +366,7 @@ function raycasting() {
 }
 
 // 마우스 이벤트
-canvas.addEventListener("mousedown", e => {
+canvas.addEventListener("mousedown", (e) => {
   //마우스 눌렀을 때
   isPressed = true;
   calculateMousePosition(e);
@@ -371,7 +376,7 @@ canvas.addEventListener("mouseup", () => {
   // 마우스 땠을 때
   isPressed = false;
 });
-canvas.addEventListener("mousemove", e => {
+canvas.addEventListener("mousemove", (e) => {
   // 마우스를 움직일때
   if (isPressed) {
     // 근데 누른 상태일 때
@@ -380,7 +385,7 @@ canvas.addEventListener("mousemove", e => {
 });
 
 // 터치 이벤트 - 마우스랑 똑같다
-canvas.addEventListener("touchstart", e => {
+canvas.addEventListener("touchstart", (e) => {
   // 기기 선택했을때
   isPressed = true;
   calculateMousePosition(e.touches[0]); // 마우스랑 다른점은 배열형태(손가락 터치 처음한 애(사람은 다섯손가락이니까))
@@ -388,7 +393,7 @@ canvas.addEventListener("touchstart", e => {
 canvas.addEventListener("touchend", () => {
   isPressed = false;
 });
-canvas.addEventListener("touchmove", e => {
+canvas.addEventListener("touchmove", (e) => {
   if (isPressed) {
     calculateMousePosition(e.touches[0]);
   }
