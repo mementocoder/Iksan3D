@@ -1,9 +1,4 @@
-import {
-  RepeatWrapping,
-  Mesh,
-  PlaneGeometry,
-  MeshStandardMaterial,
-} from "three";
+import { RepeatWrapping, Mesh, BoxGeometry, MeshStandardMaterial } from "three";
 
 export class Meshes {
   constructor(path, textureLoader) {
@@ -32,7 +27,7 @@ export class Meshes {
     };
     const _spotMeshTexture = this.setSpotMeshTexture();
     const _spotMeshText = new Mesh(
-      new PlaneGeometry(position.width, position.height),
+      new BoxGeometry(position.width, position.height, 0.0000001),
       new MeshStandardMaterial({
         map: _spotMeshTexture,
         transparent: true,
@@ -40,7 +35,7 @@ export class Meshes {
     );
     _spotMeshText.position.set(position.pX, position.pY, position.pZ);
 
-    _spotMeshText.receiveShadow = true;
+    _spotMeshText.castShadow = false;
     return _spotMeshText;
   }
 }

@@ -94,12 +94,12 @@ const meshList = {
     { path: "나무테스트.png", width: 2, height: 2, pX: 15, pY: 1, pZ: 6 },
     { path: "나무테스트.png", width: 2, height: 2, pX: 18, pY: 1, pZ: 6 },
   ],
-  arear: [],
 };
 
 const BASE_TEXT_IMG_PATH = "/images/";
 
 // 그냥 땅바닥 이미지
+const decoMesh = [];
 meshList.deco.map(img => {
   const text = new Meshes(`${BASE_TEXT_IMG_PATH}${img.path}`, textureLoader);
   const _spotMeshText = text.setMesh(
@@ -111,10 +111,12 @@ meshList.deco.map(img => {
   );
   _spotMeshText.rotation.x = -Math.PI / 2;
   _spotMeshText.rotation.z = 0.45;
+  decoMesh.push(_spotMeshText);
   scene.add(_spotMeshText);
 });
 
 // 세운 이미지
+const standMesh = [];
 meshList.stand.map(img => {
   const text = new Meshes(`${BASE_TEXT_IMG_PATH}${img.path}`, textureLoader);
   const _spotMeshText = text.setMesh(
@@ -126,6 +128,9 @@ meshList.stand.map(img => {
   );
   _spotMeshText.rotation.x = 0;
   _spotMeshText.rotation.y = 0.47;
+  _spotMeshText.castShadow = true;
+
+  standMesh.push(_spotMeshText);
   scene.add(_spotMeshText);
 });
 
@@ -142,6 +147,7 @@ meshList.story.map(img => {
   );
   _spotMeshText.rotation.x = 0;
   _spotMeshText.rotation.y = 0.47;
+  _spotMeshText.castShadow = true;
   _spotMeshText.visible = false;
   // _spotMeshText.visible = false;
   storyMesh.push(_spotMeshText);
@@ -203,7 +209,7 @@ const player = new Player({
   scene,
   meshes,
   gltfLoader,
-  modelSrc: "/models/maryong.glb",
+  modelSrc: "/models/ilbuni.glb",
 });
 
 const raycaster = new THREE.Raycaster();
@@ -340,8 +346,7 @@ function checkIntersects() {
       destinationPoint.y = 0.3; // 하늘 날고 땅으로 꺼지는게 아닌 평면상에서만 움직이므로, x, z로만 움직여, y는 일분이 키에 맞게 적절히 잘 맞춰준거(배꼽정도)
       destinationPoint.z = item.point.z;
       player.modelMesh.lookAt(destinationPoint); // 일분이가 마우스 좌표쪽을 바라봄
-
-      //console.log(item.point);
+      // console.log(item.point)
 
       player.moving = true; // 움직이는 상태니 true로 해줌
 
