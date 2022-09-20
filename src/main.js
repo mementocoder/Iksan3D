@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { Player } from "./Player";
 import { Meshes } from "./Mesh";
+import { House } from "./House";
 //import gsap from 'gsap';
 
 // Texture - Grid
@@ -95,7 +96,7 @@ const meshList = {
 
 const BASE_TEXT_IMG_PATH = "/images/";
 
-meshList.deco.map((img) => {
+meshList.deco.map(img => {
   const text = new Meshes(`${BASE_TEXT_IMG_PATH}${img.path}`, textureLoader);
   const _spotMeshText = text.setMesh(
     img.width,
@@ -109,7 +110,7 @@ meshList.deco.map((img) => {
   scene.add(_spotMeshText);
 });
 
-meshList.stand.map((img) => {
+meshList.stand.map(img => {
   const text = new Meshes(`${BASE_TEXT_IMG_PATH}${img.path}`, textureLoader);
   const _spotMeshText = text.setMesh(
     img.width,
@@ -152,6 +153,15 @@ pointerMesh.receiveShadow = true;
 scene.add(pointerMesh);
 
 const gltfLoader = new GLTFLoader();
+
+const house = new House({
+  gltfLoader,
+  scene,
+  modelSrc: "/images/untitled.glb",
+  x: 5,
+  y: 0.5,
+  z: 2,
+});
 
 const player = new Player({
   scene,
@@ -265,28 +275,28 @@ function raycasting() {
 }
 
 // 마우스 이벤트
-canvas.addEventListener("mousedown", (e) => {
+canvas.addEventListener("mousedown", e => {
   isPressed = true;
   calculateMousePosition(e);
 });
 canvas.addEventListener("mouseup", () => {
   isPressed = false;
 });
-canvas.addEventListener("mousemove", (e) => {
+canvas.addEventListener("mousemove", e => {
   if (isPressed) {
     calculateMousePosition(e);
   }
 });
 
 // 터치 이벤트
-canvas.addEventListener("touchstart", (e) => {
+canvas.addEventListener("touchstart", e => {
   isPressed = true;
   calculateMousePosition(e.touches[0]);
 });
 canvas.addEventListener("touchend", () => {
   isPressed = false;
 });
-canvas.addEventListener("touchmove", (e) => {
+canvas.addEventListener("touchmove", e => {
   if (isPressed) {
     calculateMousePosition(e.touches[0]);
   }
