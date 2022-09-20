@@ -4,7 +4,6 @@ import { Player } from "./Player";
 // import { House } from "./House";
 import { Meshes } from "./Mesh";
 import gsap from "gsap";
-
 // Texture - Grid
 const textureLoader = new THREE.TextureLoader();
 const floorTexture = textureLoader.load("/images/grid.png");
@@ -37,7 +36,7 @@ const camera = new THREE.OrthographicCamera(
   1000
 );
 
-const cameraPosition = new THREE.Vector3(1, 5, 5);
+const cameraPosition = new THREE.Vector3(1, 15, 12);
 camera.position.set(cameraPosition.x, cameraPosition.y, cameraPosition.z);
 camera.zoom = 0.2;
 camera.updateProjectionMatrix();
@@ -214,6 +213,7 @@ let destinationPoint = new THREE.Vector3();
 let angle = 0; // 일분이가 걸어갈 각도, 마우스를 계속 바라보는거 자체가 각도를 계산했다는거
 let isPressed = false; // 마우스를 누르고 있는 상태
 
+let isClick = "false";
 // 그리기
 const clock = new THREE.Clock();
 console.dir(player);
@@ -221,87 +221,106 @@ function draw() {
   const delta = clock.getDelta();
 
   if (player.mixer) player.mixer.update(delta); // mixer는 애니메이션 때문에 해준거죠. 업데이트 계속 해줘야 애니메이션이 됨
-
-  if (player.modelMesh) {
-    // 모델 리소스가 적용(로드)될때까지 기다림
-    camera.lookAt(player.modelMesh.position); // 카메라가 플레이어의 모델 mesh를 바라보게하는거
-  }
-
-  if (player.modelMesh) {
-    if (isPressed) {
-      // 마우스가 눌린 상태에만 이 함수 호출. draw함수에 넣음으로써 마우스 누른 상태에선 계속 레이케스팅 됨, 타겟 위치가 계속 바뀌니 계속 체킹해주게 해줌, 마우스 누를 때만(계속 누르고 있을 때 졸졸따라다니는 기능을 위함)
-      raycasting();
-      // 결과에 따라 움직여줌
+  console.log(mouse.x + " " + mouse.y);
+  if (isClick == "false") {
+    if (player.modelMesh) {
+      // 모델 리소스가 적용(로드)될때까지 기다림
+      camera.lookAt(storyMesh[0].position); // 카메라가 플레이어의 모델 mesh를 바라보게하는거
+      if (mouse.x > -1 && mouse.x < -0.5) {
+        if (mouse.y > -1 && mouse.y < -0.5) {
+          camera.lookAt(player.modelMesh.position);
+          gsap.to(camera.position, {
+            //원위치
+            duration: 4,
+            y: 5,
+            z: 5,
+          });
+          setTimeout(() => (isClick = "true"), 4000);
+        }
+      }
+    }
+  } else {
+    if (player.modelMesh) {
+      // 모델 리소스가 적용(로드)될때까지 기다림
+      camera.lookAt(player.modelMesh.position); // 카메라가 플레이어의 모델 mesh를 바라보게하는거
     }
 
-    if (player.moving) {
-      // 걸어가는 상태
-      angle = Math.atan2(
-        // 현재 지점에서 마우스 클릭 지점까지 걸어갈 각도 계산->점과 점사이의 각도 계산 - 아크탄젠트2
-        destinationPoint.z - player.modelMesh.position.z,
-        destinationPoint.x - player.modelMesh.position.x
-      );
-      player.modelMesh.position.x += Math.cos(angle) * 0.05; //그 좌표를 이용해 이동시킴
-      player.modelMesh.position.z += Math.sin(angle) * 0.05;
-
-      camera.position.x = cameraPosition.x + player.modelMesh.position.x; // 일분이가 움직인만큼 카메라도 움직이게 함. 카메라가 계속 따라 움직임 그래서 화면에 고정돼보이는거.
-      camera.position.z = cameraPosition.z + player.modelMesh.position.z;
-
-      player.actions[0].stop(); // 기본 대기상태 꺼주고
-      player.actions[1].play(); // 걷기상태를 켜줌
-
-      // 목표지점과 플레이어 값이 특정값에 도달하면 멈춰(뺀 값이 작으면 거의 목표지점 도달한거니)
-      if (
-        Math.abs(destinationPoint.x - player.modelMesh.position.x) < 0.03 &&
-        Math.abs(destinationPoint.z - player.modelMesh.position.z) < 0.03
-      ) {
-        player.moving = false;
-        console.log("멈춤");
+    if (player.modelMesh) {
+      if (isPressed) {
+        // 마우스가 눌린 상태에만 이 함수 호출. draw함수에 넣음으로써 마우스 누른 상태에선 계속 레이케스팅 됨, 타겟 위치가 계속 바뀌니 계속 체킹해주게 해줌, 마우스 누를 때만(계속 누르고 있을 때 졸졸따라다니는 기능을 위함)
+        raycasting();
+        // 결과에 따라 움직여줌
       }
-      // spot메쉬(노란색)에 진입할때
-      if (
-        Math.abs(spotMesh1.position.x - player.modelMesh.position.x) < 1.5 &&
-        Math.abs(spotMesh1.position.z - player.modelMesh.position.z) < 1.5
-      ) {
-        // 집 보이도록
 
-        if (!storyMesh[0].visible) {
-          //안보이는 상태라면 보이도록
-          console.log("나와");
-          storyMesh[0].visible = true;
-          spotMesh1.material.color.set("seagreen");
+      if (player.moving) {
+        // 걸어가는 상태
+        angle = Math.atan2(
+          // 현재 지점에서 마우스 클릭 지점까지 걸어갈 각도 계산->점과 점사이의 각도 계산 - 아크탄젠트2
+          destinationPoint.z - player.modelMesh.position.z,
+          destinationPoint.x - player.modelMesh.position.x
+        );
+        player.modelMesh.position.x += Math.cos(angle) * 0.05; //그 좌표를 이용해 이동시킴
+        player.modelMesh.position.z += Math.sin(angle) * 0.05;
+
+        camera.position.x = cameraPosition.x + player.modelMesh.position.x; // 일분이가 움직인만큼 카메라도 움직이게 함. 카메라가 계속 따라 움직임 그래서 화면에 고정돼보이는거.
+        camera.position.z = cameraPosition.z + player.modelMesh.position.z - 7;
+
+        player.actions[0].stop(); // 기본 대기상태 꺼주고
+        player.actions[1].play(); // 걷기상태를 켜줌
+        console.log(mouse.x + " " + mouse.y);
+        // 목표지점과 플레이어 값이 특정값에 도달하면 멈춰(뺀 값이 작으면 거의 목표지점 도달한거니)
+        if (
+          Math.abs(destinationPoint.x - player.modelMesh.position.x) < 0.03 &&
+          Math.abs(destinationPoint.z - player.modelMesh.position.z) < 0.03
+        ) {
+          player.moving = false;
+          console.log("멈춤");
+        }
+        // spot메쉬(노란색)에 진입할때
+        if (
+          Math.abs(spotMesh1.position.x - player.modelMesh.position.x) < 1.5 &&
+          Math.abs(spotMesh1.position.z - player.modelMesh.position.z) < 1.5
+        ) {
+          // 집 보이도록
+
+          if (!storyMesh[0].visible) {
+            //안보이는 상태라면 보이도록
+            console.log("나와");
+            storyMesh[0].visible = true;
+            spotMesh1.material.color.set("seagreen");
+            gsap.to(storyMesh[0].position, {
+              // 집 메쉬가
+              duration: 1, // 1초동안
+              y: 1, // y(위로 나오니까)
+              ease: "Bounce.easeOut", // 재밌게 띠용(라이브러리가 가지고 있는 값)
+            });
+            gsap.to(camera.position, {
+              // 카메라 포지션 변경
+              duration: 1,
+              y: 3,
+            });
+          }
+        } else if (storyMesh[0].visible) {
+          // 집 보이는 상태라면 반대로 집어넣어
+          console.log("들어가");
+
+          storyMesh[0].visible = false;
+          spotMesh1.material.color.set("yellow");
           gsap.to(storyMesh[0].position, {
-            // 집 메쉬가
-            duration: 1, // 1초동안
-            y: 1, // y(위로 나오니까)
-            ease: "Bounce.easeOut", // 재밌게 띠용(라이브러리가 가지고 있는 값)
+            duration: 0.5,
+            y: -1.3, // 원위치
           });
           gsap.to(camera.position, {
-            // 카메라 포지션 변경
+            //원위치
             duration: 1,
-            y: 3,
+            y: 5,
           });
         }
-      } else if (storyMesh[0].visible) {
-        // 집 보이는 상태라면 반대로 집어넣어
-        console.log("들어가");
-
-        storyMesh[0].visible = false;
-        spotMesh1.material.color.set("yellow");
-        gsap.to(storyMesh[0].position, {
-          duration: 0.5,
-          y: -1.3, // 원위치
-        });
-        gsap.to(camera.position, {
-          //원위치
-          duration: 1,
-          y: 5,
-        });
+      } else {
+        // 서 있는 상태(큰 if 조건. 플레이어 걸어가는 상태가 아니라면)
+        player.actions[1].stop(); // 플레이어 걸어가는거 멈춰주고
+        player.actions[0].play(); // 까딱까딱
       }
-    } else {
-      // 서 있는 상태(큰 if 조건. 플레이어 걸어가는 상태가 아니라면)
-      player.actions[1].stop(); // 플레이어 걸어가는거 멈춰주고
-      player.actions[0].play(); // 까딱까딱
     }
   }
 
@@ -322,7 +341,7 @@ function checkIntersects() {
       destinationPoint.z = item.point.z;
       player.modelMesh.lookAt(destinationPoint); // 일분이가 마우스 좌표쪽을 바라봄
 
-      // console.log(item.point)
+      //console.log(item.point);
 
       player.moving = true; // 움직이는 상태니 true로 해줌
 
