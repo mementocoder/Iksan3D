@@ -36,7 +36,7 @@ const camera = new THREE.OrthographicCamera(
   1000
 );
 
-const cameraPosition = new THREE.Vector3(1, 15, 12);
+const cameraPosition = new THREE.Vector3(1, 25, 5);
 camera.position.set(cameraPosition.x, cameraPosition.y, cameraPosition.z);
 camera.zoom = 0.2;
 camera.updateProjectionMatrix();
@@ -100,7 +100,7 @@ const BASE_TEXT_IMG_PATH = "/images/";
 
 // 그냥 땅바닥 이미지
 const decoMesh = [];
-meshList.deco.map(img => {
+meshList.deco.map((img) => {
   const text = new Meshes(`${BASE_TEXT_IMG_PATH}${img.path}`, textureLoader);
   const _spotMeshText = text.setMesh(
     img.width,
@@ -117,7 +117,7 @@ meshList.deco.map(img => {
 
 // 세운 이미지
 const standMesh = [];
-meshList.stand.map(img => {
+meshList.stand.map((img) => {
   const text = new Meshes(`${BASE_TEXT_IMG_PATH}${img.path}`, textureLoader);
   const _spotMeshText = text.setMesh(
     img.width,
@@ -136,7 +136,7 @@ meshList.stand.map(img => {
 
 // 영역 들어갔을때 뿅 올라오는 이미지
 const storyMesh = [];
-meshList.story.map(img => {
+meshList.story.map((img) => {
   const text = new Meshes(`${BASE_TEXT_IMG_PATH}${img.path}`, textureLoader);
   const _spotMeshText = text.setMesh(
     img.width,
@@ -209,7 +209,7 @@ const player = new Player({
   scene,
   meshes,
   gltfLoader,
-  modelSrc: "/models/ilbuni.glb",
+  modelSrc: "/models/마룡이.glb",
 });
 
 const raycaster = new THREE.Raycaster();
@@ -228,19 +228,31 @@ function draw() {
 
   if (player.mixer) player.mixer.update(delta); // mixer는 애니메이션 때문에 해준거죠. 업데이트 계속 해줘야 애니메이션이 됨
   console.log(mouse.x + " " + mouse.y);
+
   if (isClick == "false") {
     if (player.modelMesh) {
       // 모델 리소스가 적용(로드)될때까지 기다림
-      camera.lookAt(storyMesh[0].position); // 카메라가 플레이어의 모델 mesh를 바라보게하는거
+      camera.lookAt(decoMesh[0].position); // 카메라가 플레이어의 모델 mesh를 바라보게하는거
       if (mouse.x > -1 && mouse.x < -0.5) {
         if (mouse.y > -1 && mouse.y < -0.5) {
-          camera.lookAt(player.modelMesh.position);
+          // camera.lookAt(player.modelMesh.position);
           gsap.to(camera.position, {
             //원위치
             duration: 4,
             y: 5,
             z: 5,
           });
+          setTimeout(
+            () =>
+              gsap.to(player.modelMesh.position, {
+                //원위치
+                duration: 1,
+                y: 0.3,
+                ease: "Bounce.easeOut",
+              }),
+            1000
+          );
+
           setTimeout(() => (isClick = "true"), 4000);
         }
       }
@@ -269,7 +281,7 @@ function draw() {
         player.modelMesh.position.z += Math.sin(angle) * 0.05;
 
         camera.position.x = cameraPosition.x + player.modelMesh.position.x; // 일분이가 움직인만큼 카메라도 움직이게 함. 카메라가 계속 따라 움직임 그래서 화면에 고정돼보이는거.
-        camera.position.z = cameraPosition.z + player.modelMesh.position.z - 7;
+        camera.position.z = cameraPosition.z + player.modelMesh.position.z;
 
         player.actions[0].stop(); // 기본 대기상태 꺼주고
         player.actions[1].play(); // 걷기상태를 켜줌
@@ -385,7 +397,7 @@ function raycasting() {
 }
 
 // 마우스 이벤트
-canvas.addEventListener("mousedown", e => {
+canvas.addEventListener("mousedown", (e) => {
   //마우스 눌렀을 때
   isPressed = true;
   calculateMousePosition(e);
@@ -395,7 +407,7 @@ canvas.addEventListener("mouseup", () => {
   // 마우스 땠을 때
   isPressed = false;
 });
-canvas.addEventListener("mousemove", e => {
+canvas.addEventListener("mousemove", (e) => {
   // 마우스를 움직일때
   if (isPressed) {
     // 근데 누른 상태일 때
@@ -404,7 +416,7 @@ canvas.addEventListener("mousemove", e => {
 });
 
 // 터치 이벤트 - 마우스랑 똑같다
-canvas.addEventListener("touchstart", e => {
+canvas.addEventListener("touchstart", (e) => {
   // 기기 선택했을때
   isPressed = true;
   calculateMousePosition(e.touches[0]); // 마우스랑 다른점은 배열형태(손가락 터치 처음한 애(사람은 다섯손가락이니까))
@@ -412,7 +424,7 @@ canvas.addEventListener("touchstart", e => {
 canvas.addEventListener("touchend", () => {
   isPressed = false;
 });
-canvas.addEventListener("touchmove", e => {
+canvas.addEventListener("touchmove", (e) => {
   if (isPressed) {
     calculateMousePosition(e.touches[0]);
   }

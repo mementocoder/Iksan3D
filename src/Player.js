@@ -12,7 +12,7 @@ export class Player {
       });
 
       this.modelMesh = glb.scene.children[0];
-      this.modelMesh.position.y = 0.3;
+      this.modelMesh.position.y = -3;
       this.modelMesh.name = "maryong";
       info.scene.add(this.modelMesh);
       info.meshes.push(this.modelMesh);
@@ -21,7 +21,7 @@ export class Player {
 
       this.mixer = new AnimationMixer(this.modelMesh);
       this.actions[0] = this.mixer.clipAction(glb.animations[0]);
-      this.actions[1] = this.mixer.clipAction(glb.animations[1]);
+      this.actions[1] = this.mixer.clipAction(glb.animations[3]);
       this.actions[0].play();
     });
   }
