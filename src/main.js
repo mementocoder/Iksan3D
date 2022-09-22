@@ -220,6 +220,16 @@ const house = new House({
 //   z: 0,
 // });
 
+// 3D 모델
+// const suktop = new House({
+//   gltfLoader,
+//   scene,
+//   modelSrc: "/models/서고동리.glb",
+//   x: 0,
+//   y: 5,
+//   z: 0,
+// });
+
 // 마룡
 const player = new Player({
   scene,
@@ -376,8 +386,6 @@ function checkIntersects() {
       destinationPoint.y = 0.3; // 하늘 날고 땅으로 꺼지는게 아닌 평면상에서만 움직이므로, x, z로만 움직여, y는 일분이 키에 맞게 적절히 잘 맞춰준거(배꼽정도)
       destinationPoint.z = item.point.z;
       player.modelMesh.lookAt(destinationPoint); // 일분이가 마우스 좌표쪽을 바라봄
-      // console.log(item.point)
-      console.log(item.point.x + " " + item.point.z);
       player.moving = true; // 움직이는 상태니 true로 해줌
 
       pointerMesh.position.x = destinationPoint.x; // 일분이 밑 빨간애도 이동시켜줘야하니까
