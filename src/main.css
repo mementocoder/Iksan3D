@@ -1,3 +1,12 @@
+@keyframes moveSpritesheet {
+	from {
+		 transform: translate(0px,0)
+	 }
+	 to {
+		 transform: translate(-100%,0)
+	 }
+}
+
 body {
 	overflow: hidden;
 	margin: 0;
@@ -7,14 +16,19 @@ body {
 	left: 0;
 	top: 0;
 }
-.background {
+#description {
+	visibility: hidden;
 	position: fixed;
 	top: 0;
 	left: 0;
 	width: 100%;
 	height: 100vh;
-	background-color: rgba(0, 0, 0, 0.3);
+	background-color: rgba(0, 0, 0, 0.8);
 	z-index: 1000;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
 }
 .window {
 	position: relative;
@@ -32,4 +46,14 @@ body {
 	/* 임시 지정 */
 	width: 500px;
 	height: 500px;
-  }
+}
+.mainImg {
+	width: 350px;
+	height: 230px;
+	overflow: hidden;
+}
+.mainImg img {
+	width: 400%;
+	height: 100%;
+	animation: moveSpritesheet 2s steps(4) infinite;
+}

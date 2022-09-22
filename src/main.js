@@ -4,6 +4,13 @@ import { Player } from "./Player";
 import { House } from "./House";
 import { Meshes } from "./Mesh";
 import gsap from "gsap";
+
+const description = document.querySelector("#description");
+const startBtn = document.querySelector("#start");
+startBtn.addEventListener("click", e => {
+  description.style.visibility = "hidden";
+});
+
 // Texture - Grid
 const textureLoader = new THREE.TextureLoader();
 const floorTexture = textureLoader.load("/images/grid.png");
@@ -85,8 +92,8 @@ meshes.push(floorMesh);
 const meshList = {
   deco: [{ path: "마룡테스트.gif", width: 3, height: 3, pX: 0, pY: 0, pZ: 0 }],
   stand: [
-    { path: "main.png", width: 10, height: 10, pX: 5, pY: 3, pZ: 0 },
-    { path: "main.png", width: 4, height: 4, pX: 3, pY: 3, pZ: 7 },
+    // { path: "main.png", width: 10, height: 10, pX: 5, pY: 3, pZ: 0 },
+    // { path: "main.png", width: 4, height: 4, pX: 3, pY: 3, pZ: 7 },
   ],
   easterEgg: [],
   story: {
@@ -201,14 +208,14 @@ scene.add(pointerMesh);
 const gltfLoader = new GLTFLoader();
 
 //그림자;
-const house = new House({
-  gltfLoader,
-  scene,
-  modelSrc: "/images/untitled.glb",
-  x: 5,
-  y: 0.5,
-  z: 2,
-});
+// const house = new House({
+//   gltfLoader,
+//   scene,
+//   modelSrc: "/models/mount.glb",
+//   x: 10,
+//   y: 0.5,
+//   z: 10,
+// });
 
 // 3D 모델
 // const suktop = new House({
@@ -245,7 +252,7 @@ let destinationPoint = new THREE.Vector3();
 let angle = 0; // 일분이가 걸어갈 각도, 마우스를 계속 바라보는거 자체가 각도를 계산했다는거
 let isPressed = false; // 마우스를 누르고 있는 상태
 
-let isClick = "true";
+let isClick = "false";
 // 그리기
 const clock = new THREE.Clock();
 function draw() {
@@ -260,6 +267,9 @@ function draw() {
       if (mouse.x > -1 && mouse.x < -0.5) {
         if (mouse.y > -1 && mouse.y < -0.5) {
           // camera.lookAt(player.modelMesh.position);
+          // const bgm = document.querySelector("#bgm");
+          // bgm.play();
+          description.style.visibility = "visible";
           gsap.to(camera.position, {
             //원위치
             duration: 4,
@@ -267,6 +277,8 @@ function draw() {
             y: 5,
             z: 5,
           });
+          mouse.x = 0;
+          mouse.y = 0;
           setTimeout(
             () =>
               gsap.to(player.modelMesh.position, {

@@ -12,8 +12,8 @@ export class Player {
       });
 
       this.modelMesh = glb.scene.children[0];
-      // this.modelMesh.position.y = -3;
-      this.modelMesh.position.y = 0.3;
+      this.modelMesh.position.y = -3;
+      // this.modelMesh.position.y = 0.3;
       this.modelMesh.name = "maryong";
       info.scene.add(this.modelMesh);
       info.meshes.push(this.modelMesh);
