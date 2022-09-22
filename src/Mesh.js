@@ -34,8 +34,9 @@ export class Meshes {
       })
     );
     _spotMeshText.position.set(position.pX, position.pY, position.pZ);
-
     _spotMeshText.castShadow = false;
+
+    _spotMeshText.castShad;
     return _spotMeshText;
   }
 }

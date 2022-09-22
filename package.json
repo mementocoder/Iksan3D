@@ -28,7 +28,8 @@
   },
   "dependencies": {
     "gsap": "^3.11.1",
-    "three": "^0.144.0"
+    "three": "^0.144.0",
+    "three-plain-animator": "^1.1.2"
   },
   "repository": {
     "type": "git",

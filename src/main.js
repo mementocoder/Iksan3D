@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { Player } from "./Player";
-// import { House } from "./House";
+import { House } from "./House";
 import { Meshes } from "./Mesh";
 import gsap from "gsap";
 // Texture - Grid
@@ -36,7 +36,7 @@ const camera = new THREE.OrthographicCamera(
   1000
 );
 
-const cameraPosition = new THREE.Vector3(1, 15, 12);
+const cameraPosition = new THREE.Vector3(2.5, 25, 5);
 camera.position.set(cameraPosition.x, cameraPosition.y, cameraPosition.z);
 camera.zoom = 0.2;
 camera.updateProjectionMatrix();
@@ -89,11 +89,14 @@ const meshList = {
     { path: "main.png", width: 4, height: 4, pX: 3, pY: 3, pZ: 7 },
   ],
   easterEgg: [],
-  story: [
-    { path: "나무테스트.png", width: 2, height: 2, pX: 13, pY: 1, pZ: 6 },
-    { path: "나무테스트.png", width: 2, height: 2, pX: 15, pY: 1, pZ: 6 },
-    { path: "나무테스트.png", width: 2, height: 2, pX: 18, pY: 1, pZ: 6 },
-  ],
+  story: {
+    0: [
+      { path: "나무테스트.png", width: 3, height: 3, pX: 14, pY: -2, pZ: 6 },
+      { path: "석탑.png", width: 4, height: 4, pX: 12, pY: -2, pZ: 7 },
+      { path: "미륵산.png", width: 10, height: 10, pX: 11, pY: -2, pZ: 6 },
+    ],
+    1: [],
+  },
 };
 
 const BASE_TEXT_IMG_PATH = "/images/";
@@ -135,8 +138,8 @@ meshList.stand.map(img => {
 });
 
 // 영역 들어갔을때 뿅 올라오는 이미지
-const storyMesh = [];
-meshList.story.map(img => {
+const storyMesh0 = [];
+meshList.story[0].map(img => {
   const text = new Meshes(`${BASE_TEXT_IMG_PATH}${img.path}`, textureLoader);
   const _spotMeshText = text.setMesh(
     img.width,
@@ -149,11 +152,9 @@ meshList.story.map(img => {
   _spotMeshText.rotation.y = 0.47;
   _spotMeshText.castShadow = true;
   _spotMeshText.visible = false;
-  // _spotMeshText.visible = false;
-  storyMesh.push(_spotMeshText);
+  storyMesh0.push(_spotMeshText);
   scene.add(_spotMeshText);
 });
-console.dir(storyMesh);
 
 // 영역
 const spotMesh1 = new THREE.Mesh(
@@ -170,6 +171,20 @@ spotMesh1.rotation.z = 0.45;
 spotMesh1.receiveShadow = true;
 scene.add(spotMesh1);
 
+const spotMesh2 = new THREE.Mesh(
+  new THREE.PlaneGeometry(3, 3),
+  new THREE.MeshStandardMaterial({
+    color: "yellow",
+    transparent: true,
+    opacity: 0.5,
+  })
+);
+spotMesh2.position.set(20, 0.005, 12);
+spotMesh2.rotation.x = -Math.PI / 2;
+spotMesh2.rotation.z = 0.45;
+spotMesh2.receiveShadow = true;
+scene.add(spotMesh2);
+
 // 마우스 클릭 위치
 const pointerMesh = new THREE.Mesh(
   new THREE.PlaneGeometry(1, 1),
@@ -185,31 +200,32 @@ scene.add(pointerMesh);
 
 const gltfLoader = new GLTFLoader();
 
-// 그림자
-// const house = new House({
+//그림자;
+const house = new House({
+  gltfLoader,
+  scene,
+  modelSrc: "/images/untitled.glb",
+  x: 5,
+  y: 0.5,
+  z: 2,
+});
+
+// 3D 모델
+// const suktop = new House({
 //   gltfLoader,
 //   scene,
-//   modelSrc: "/images/untitled.glb",
-//   x: 5,
-//   y: 0.5,
-//   z: 2,
+//   modelSrc: "/models/서고동리.glb",
+//   x: 0,
+//   y: 5,
+//   z: 0,
 // });
 
-// 집
-// const house = new House({
-//   gltfLoader,
-//   scene,
-//   modelSrc: "/models/house.glb",
-//   x: 5,
-//   y: -1.3,
-//   z: 2,
-// });
 // 마룡
 const player = new Player({
   scene,
   meshes,
   gltfLoader,
-  modelSrc: "/models/ilbuni.glb",
+  modelSrc: "/models/마룡이.glb",
 });
 
 const raycaster = new THREE.Raycaster();
@@ -219,28 +235,39 @@ let destinationPoint = new THREE.Vector3();
 let angle = 0; // 일분이가 걸어갈 각도, 마우스를 계속 바라보는거 자체가 각도를 계산했다는거
 let isPressed = false; // 마우스를 누르고 있는 상태
 
-let isClick = "false";
+let isClick = "true";
 // 그리기
 const clock = new THREE.Clock();
-console.dir(player);
 function draw() {
   const delta = clock.getDelta();
-
   if (player.mixer) player.mixer.update(delta); // mixer는 애니메이션 때문에 해준거죠. 업데이트 계속 해줘야 애니메이션이 됨
-  console.log(mouse.x + " " + mouse.y);
+  // console.log(mouse.x + " " + mouse.y);
+
   if (isClick == "false") {
     if (player.modelMesh) {
       // 모델 리소스가 적용(로드)될때까지 기다림
-      camera.lookAt(storyMesh[0].position); // 카메라가 플레이어의 모델 mesh를 바라보게하는거
+      camera.lookAt(decoMesh[0].position); // 카메라가 플레이어의 모델 mesh를 바라보게하는거
       if (mouse.x > -1 && mouse.x < -0.5) {
         if (mouse.y > -1 && mouse.y < -0.5) {
-          camera.lookAt(player.modelMesh.position);
+          // camera.lookAt(player.modelMesh.position);
           gsap.to(camera.position, {
             //원위치
             duration: 4,
+            x: 1,
             y: 5,
             z: 5,
           });
+          setTimeout(
+            () =>
+              gsap.to(player.modelMesh.position, {
+                //원위치
+                duration: 1,
+                y: 0.3,
+                ease: "Bounce.easeOut",
+              }),
+            1000
+          );
+
           setTimeout(() => (isClick = "true"), 4000);
         }
       }
@@ -268,12 +295,13 @@ function draw() {
         player.modelMesh.position.x += Math.cos(angle) * 0.05; //그 좌표를 이용해 이동시킴
         player.modelMesh.position.z += Math.sin(angle) * 0.05;
 
-        camera.position.x = cameraPosition.x + player.modelMesh.position.x; // 일분이가 움직인만큼 카메라도 움직이게 함. 카메라가 계속 따라 움직임 그래서 화면에 고정돼보이는거.
-        camera.position.z = cameraPosition.z + player.modelMesh.position.z - 7;
+        camera.position.x =
+          cameraPosition.x + player.modelMesh.position.x - 1.5; // 일분이가 움직인만큼 카메라도 움직이게 함. 카메라가 계속 따라 움직임 그래서 화면에 고정돼보이는거.
+        camera.position.z = cameraPosition.z + player.modelMesh.position.z;
 
         player.actions[0].stop(); // 기본 대기상태 꺼주고
         player.actions[1].play(); // 걷기상태를 켜줌
-        console.log(mouse.x + " " + mouse.y);
+        // console.log(mouse.x + " " + mouse.y);
         // 목표지점과 플레이어 값이 특정값에 도달하면 멈춰(뺀 값이 작으면 거의 목표지점 도달한거니)
         if (
           Math.abs(destinationPoint.x - player.modelMesh.position.x) < 0.03 &&
@@ -283,45 +311,47 @@ function draw() {
           console.log("멈춤");
         }
         // spot메쉬(노란색)에 진입할때
-        if (
-          Math.abs(spotMesh1.position.x - player.modelMesh.position.x) < 1.5 &&
-          Math.abs(spotMesh1.position.z - player.modelMesh.position.z) < 1.5
-        ) {
-          // 집 보이도록
+        storyMesh0.forEach(sMesh => {
+          if (
+            Math.abs(spotMesh1.position.x - player.modelMesh.position.x) <
+              1.5 &&
+            Math.abs(spotMesh1.position.z - player.modelMesh.position.z) < 1.5
+          ) {
+            // 집 보이도록
+            if (!sMesh.visible) {
+              //안보이는 상태라면 보이도록
+              console.log("나와");
+              sMesh.visible = true;
+              spotMesh1.material.color.set("seagreen");
+              gsap.to(sMesh.position, {
+                // 집 메쉬가
+                duration: 1, // 1초동안
+                y: 2, // y(위로 나오니까)
+                ease: "Bounce.easeOut", // 재밌게 띠용(라이브러리가 가지고 있는 값)
+              });
+              gsap.to(camera.position, {
+                // 카메라 포지션 변경
+                duration: 1,
+                y: 3,
+              });
+            }
+          } else if (sMesh.visible) {
+            // 집 보이는 상태라면 반대로 집어넣어
+            console.log("들어가");
 
-          if (!storyMesh[0].visible) {
-            //안보이는 상태라면 보이도록
-            console.log("나와");
-            storyMesh[0].visible = true;
-            spotMesh1.material.color.set("seagreen");
-            gsap.to(storyMesh[0].position, {
-              // 집 메쉬가
-              duration: 1, // 1초동안
-              y: 1, // y(위로 나오니까)
-              ease: "Bounce.easeOut", // 재밌게 띠용(라이브러리가 가지고 있는 값)
+            sMesh.visible = false;
+            spotMesh1.material.color.set("yellow");
+            gsap.to(sMesh.position, {
+              duration: 0.5,
+              y: -1.3, // 원위치
             });
             gsap.to(camera.position, {
-              // 카메라 포지션 변경
+              //원위치
               duration: 1,
-              y: 3,
+              y: 5,
             });
           }
-        } else if (storyMesh[0].visible) {
-          // 집 보이는 상태라면 반대로 집어넣어
-          console.log("들어가");
-
-          storyMesh[0].visible = false;
-          spotMesh1.material.color.set("yellow");
-          gsap.to(storyMesh[0].position, {
-            duration: 0.5,
-            y: -1.3, // 원위치
-          });
-          gsap.to(camera.position, {
-            //원위치
-            duration: 1,
-            y: 5,
-          });
-        }
+        });
       } else {
         // 서 있는 상태(큰 if 조건. 플레이어 걸어가는 상태가 아니라면)
         player.actions[1].stop(); // 플레이어 걸어가는거 멈춰주고
@@ -335,7 +365,7 @@ function draw() {
 }
 
 function checkIntersects() {
-  // raycaster.setFromCamera(mouse, camera); 계속 반복실행되는거니까 주석해둔거
+  raycaster.setFromCamera(mouse, camera);
   // 클릭하면 실행됨.
   const intersects = raycaster.intersectObjects(meshes);
   for (const item of intersects) {
@@ -347,7 +377,7 @@ function checkIntersects() {
       destinationPoint.z = item.point.z;
       player.modelMesh.lookAt(destinationPoint); // 일분이가 마우스 좌표쪽을 바라봄
       // console.log(item.point)
-
+      console.log(item.point.x + " " + item.point.z);
       player.moving = true; // 움직이는 상태니 true로 해줌
 
       pointerMesh.position.x = destinationPoint.x; // 일분이 밑 빨간애도 이동시켜줘야하니까
@@ -356,7 +386,6 @@ function checkIntersects() {
     break;
   }
 }
-
 function setSize() {
   // 카메라
   camera.left = -(window.innerWidth / window.innerHeight);
@@ -388,6 +417,7 @@ function raycasting() {
 canvas.addEventListener("mousedown", e => {
   //마우스 눌렀을 때
   isPressed = true;
+
   calculateMousePosition(e);
   // 클릭했을때 마우스 좌표를 three.js에맞게 비율 변환시키는 함수, 가운데가 0, 왼쪽은 -1, 오른쪽은 1 이런식
 });
