@@ -16,7 +16,7 @@ body {
 	left: 0;
 	top: 0;
 }
-#description {
+.background {
 	visibility: hidden;
 	position: fixed;
 	top: 0;
@@ -56,4 +56,8 @@ body {
 	width: 400%;
 	height: 100%;
 	animation: moveSpritesheet 2s steps(4) infinite;
+}
+.video iframe {
+	width: 80vw;
+	height: 90vh;
 }

@@ -5,6 +5,7 @@ import { House } from "./House";
 import { Meshes } from "./Mesh";
 import gsap from "gsap";
 
+// Modal
 const description = document.querySelector("#description");
 const startBtn = document.querySelector("#start");
 startBtn.addEventListener("click", e => {
@@ -96,21 +97,19 @@ const meshList = {
     // { path: "main.png", width: 4, height: 4, pX: 3, pY: 3, pZ: 7 },
   ],
   easterEgg: [],
-  story: {
-    0: [
-      { path: "나무테스트.png", width: 3, height: 3, pX: 14, pY: -2, pZ: 6 },
-      { path: "석탑.png", width: 4, height: 4, pX: 12, pY: -2, pZ: 7 },
-      { path: "미륵산.png", width: 10, height: 10, pX: 11, pY: -2, pZ: 6 },
-    ],
-    1: [],
-  },
+  story1: [{ path: "/models/미륵사지.glb", pX: 13.5, pY: -3, pZ: 7.2 }],
+  story2: [
+    { path: "/models/동고도리.glb", pX: 18, pY: -3, pZ: 23.5 },
+    { path: "/models/동고도리.glb", pX: 21.3, pY: -3, pZ: 22.1 },
+    { path: "/models/동고도리비석.glb", pX: 20.4, pY: -3, pZ: 23.8 },
+  ],
 };
 
 const BASE_TEXT_IMG_PATH = "/images/";
 
 // 그냥 땅바닥 이미지
 const decoMesh = [];
-meshList.deco.map((img) => {
+meshList.deco.map(img => {
   const text = new Meshes(`${BASE_TEXT_IMG_PATH}${img.path}`, textureLoader);
   const _spotMeshText = text.setMesh(
     img.width,
@@ -127,7 +126,7 @@ meshList.deco.map((img) => {
 
 // 세운 이미지
 const standMesh = [];
-meshList.stand.map((img) => {
+meshList.stand.map(img => {
   const text = new Meshes(`${BASE_TEXT_IMG_PATH}${img.path}`, textureLoader);
   const _spotMeshText = text.setMesh(
     img.width,
@@ -144,53 +143,61 @@ meshList.stand.map((img) => {
   scene.add(_spotMeshText);
 });
 
+const gltfLoader = new GLTFLoader();
+
 // 영역 들어갔을때 뿅 올라오는 이미지
 const storyMesh0 = [];
-meshList.story[0].map((img) => {
-  const text = new Meshes(`${BASE_TEXT_IMG_PATH}${img.path}`, textureLoader);
-  const _spotMeshText = text.setMesh(
-    img.width,
-    img.height,
-    img.pX,
-    img.pY,
-    img.pZ
-  );
-  _spotMeshText.rotation.x = 0;
-  _spotMeshText.rotation.y = 0.47;
-  _spotMeshText.castShadow = true;
-  _spotMeshText.visible = false;
-  storyMesh0.push(_spotMeshText);
-  scene.add(_spotMeshText);
+meshList.story1.map(img => {
+  const suktop = new House({
+    gltfLoader,
+    scene,
+    modelSrc: img.path,
+    x: img.pX,
+    y: img.pY,
+    z: img.pZ,
+  });
+  storyMesh0.push(suktop);
+});
+
+const storyMesh1 = [];
+meshList.story2.map(img => {
+  const suktop = new House({
+    gltfLoader,
+    scene,
+    modelSrc: img.path,
+    x: img.pX,
+    y: img.pY,
+    z: img.pZ,
+  });
+  storyMesh1.push(suktop);
 });
 
 // 영역
-const spotMesh1 = new THREE.Mesh(
-  new THREE.PlaneGeometry(3, 3),
-  new THREE.MeshStandardMaterial({
-    color: "yellow",
-    transparent: true,
-    opacity: 0.5,
-  })
-);
-spotMesh1.position.set(13, 0.005, 6);
-spotMesh1.rotation.x = -Math.PI / 2;
-spotMesh1.rotation.z = 0.45;
-spotMesh1.receiveShadow = true;
-scene.add(spotMesh1);
+function spot(x, y, x2, y2) {
+  const spotMesh = new THREE.Mesh(
+    new THREE.PlaneGeometry(x, y),
+    new THREE.MeshStandardMaterial({
+      color: "yellow",
+      transparent: true,
+      opacity: 0.5,
+    })
+  );
+  spotMesh.position.set(x2, 0.005, y2);
+  spotMesh.rotation.x = -Math.PI / 2;
+  spotMesh.rotation.z = 0.45;
+  spotMesh.receiveShadow = true;
 
-const spotMesh2 = new THREE.Mesh(
-  new THREE.PlaneGeometry(3, 3),
-  new THREE.MeshStandardMaterial({
-    color: "yellow",
-    transparent: true,
-    opacity: 0.5,
-  })
-);
-spotMesh2.position.set(20, 0.005, 12);
-spotMesh2.rotation.x = -Math.PI / 2;
-spotMesh2.rotation.z = 0.45;
-spotMesh2.receiveShadow = true;
+  return spotMesh;
+}
+
+const spotMesh1 = spot(6, 6, 13, 6);
+const spotMesh2 = spot(6, 6, 20, 23);
+const spotMesh3 = spot(6, 6, 10, 40);
+const spotMesh4 = spot(6, 6, 27, 57);
+scene.add(spotMesh1);
 scene.add(spotMesh2);
+scene.add(spotMesh3);
+scene.add(spotMesh4);
 
 // 마우스 클릭 위치
 const pointerMesh = new THREE.Mesh(
@@ -204,8 +211,6 @@ pointerMesh.rotation.x = -Math.PI / 2;
 pointerMesh.position.y = 0;
 pointerMesh.receiveShadow = true;
 scene.add(pointerMesh);
-
-const gltfLoader = new GLTFLoader();
 
 //그림자;
 // const house = new House({
@@ -226,38 +231,6 @@ const gltfLoader = new GLTFLoader();
 //   y: 1,
 //   z: 0,
 // });
-const suktop = new House({
-  gltfLoader,
-  scene,
-  modelSrc: "/models/미륵사지.glb",
-  x: -5,
-  y: 1,
-  z: 3,
-});
-const dgdory = new House({
-  gltfLoader,
-  scene,
-  modelSrc: "/models/동고도리.glb",
-  x: -6,
-  y: 1,
-  z: 0,
-});
-const sgdory = new House({
-  gltfLoader,
-  scene,
-  modelSrc: "/models/동고도리.glb",
-  x: -8,
-  y: 1,
-  z: 1,
-});
-const dgdorybisuk = new House({
-  gltfLoader,
-  scene,
-  modelSrc: "/models/동고도리비석.glb",
-  x: -5,
-  y: 1,
-  z: 0,
-});
 
 // 마룡
 const player = new Player({
@@ -289,8 +262,10 @@ function draw() {
       if (mouse.x > -1 && mouse.x < -0.5) {
         if (mouse.y > -1 && mouse.y < -0.5) {
           // camera.lookAt(player.modelMesh.position);
+
           // const bgm = document.querySelector("#bgm");
-          // bgm.play();
+          // bgm.play(); //BGM기능
+
           description.style.visibility = "visible";
           gsap.to(camera.position, {
             //원위치
@@ -355,11 +330,10 @@ function draw() {
           console.log("멈춤");
         }
         // spot메쉬(노란색)에 진입할때
-        storyMesh0.forEach((sMesh) => {
+        storyMesh0.forEach(sMesh => {
           if (
-            Math.abs(spotMesh1.position.x - player.modelMesh.position.x) <
-              1.5 &&
-            Math.abs(spotMesh1.position.z - player.modelMesh.position.z) < 1.5
+            Math.abs(spotMesh1.position.x - player.modelMesh.position.x) < 3 &&
+            Math.abs(spotMesh1.position.z - player.modelMesh.position.z) < 3
           ) {
             // 집 보이도록
             if (!sMesh.visible) {
@@ -367,10 +341,10 @@ function draw() {
               console.log("나와");
               sMesh.visible = true;
               spotMesh1.material.color.set("seagreen");
-              gsap.to(sMesh.position, {
+              gsap.to(sMesh.modelMesh.position, {
                 // 집 메쉬가
                 duration: 1, // 1초동안
-                y: 2, // y(위로 나오니까)
+                y: 0.3, // y(위로 나오니까)
                 ease: "Bounce.easeOut", // 재밌게 띠용(라이브러리가 가지고 있는 값)
               });
               gsap.to(camera.position, {
@@ -385,9 +359,49 @@ function draw() {
 
             sMesh.visible = false;
             spotMesh1.material.color.set("yellow");
-            gsap.to(sMesh.position, {
+            gsap.to(sMesh.modelMesh.position, {
               duration: 0.5,
-              y: -1.3, // 원위치
+              y: -3, // 원위치
+            });
+            gsap.to(camera.position, {
+              //원위치
+              duration: 1,
+              y: 5,
+            });
+          }
+        });
+        storyMesh1.forEach(sMesh => {
+          if (
+            Math.abs(spotMesh2.position.x - player.modelMesh.position.x) < 3 &&
+            Math.abs(spotMesh2.position.z - player.modelMesh.position.z) < 3
+          ) {
+            // 집 보이도록
+            if (!sMesh.visible) {
+              //안보이는 상태라면 보이도록
+              console.log("나와");
+              sMesh.visible = true;
+              spotMesh2.material.color.set("seagreen");
+              gsap.to(sMesh.modelMesh.position, {
+                // 집 메쉬가
+                duration: 1, // 1초동안
+                y: 1, // y(위로 나오니까)
+                ease: "Bounce.easeOut", // 재밌게 띠용(라이브러리가 가지고 있는 값)
+              });
+              gsap.to(camera.position, {
+                // 카메라 포지션 변경
+                duration: 1,
+                y: 3,
+              });
+            }
+          } else if (sMesh.visible) {
+            // 집 보이는 상태라면 반대로 집어넣어
+            console.log("들어가");
+
+            sMesh.visible = false;
+            spotMesh2.material.color.set("yellow");
+            gsap.to(sMesh.modelMesh.position, {
+              duration: 0.5,
+              y: -3, // 원위치
             });
             gsap.to(camera.position, {
               //원위치
@@ -408,6 +422,20 @@ function draw() {
   renderer.setAnimationLoop(draw);
 }
 
+function playVideo(x, z) {
+  if (x > 12.5 && x < 13.5) {
+    if (z > 5.5 && z < 6.5) {
+      const first = document.querySelector("#first");
+      first.style.visibility = "visible";
+      mouse.x = 0;
+      mouse.y = 0;
+      first.addEventListener("click", e => {
+        first.style.visibility = "hidden";
+      });
+    }
+  }
+}
+
 function checkIntersects() {
   raycaster.setFromCamera(mouse, camera);
   // 클릭하면 실행됨.
@@ -421,6 +449,8 @@ function checkIntersects() {
       destinationPoint.z = item.point.z;
       player.modelMesh.lookAt(destinationPoint); // 일분이가 마우스 좌표쪽을 바라봄
       player.moving = true; // 움직이는 상태니 true로 해줌
+      playVideo(item.point.x, item.point.z);
+      console.log(item.point.x + " " + item.point.z);
 
       pointerMesh.position.x = destinationPoint.x; // 일분이 밑 빨간애도 이동시켜줘야하니까
       pointerMesh.position.z = destinationPoint.z;
@@ -456,7 +486,7 @@ function raycasting() {
 }
 
 // 마우스 이벤트
-canvas.addEventListener("mousedown", (e) => {
+canvas.addEventListener("mousedown", e => {
   //마우스 눌렀을 때
   isPressed = true;
 
@@ -467,7 +497,7 @@ canvas.addEventListener("mouseup", () => {
   // 마우스 땠을 때
   isPressed = false;
 });
-canvas.addEventListener("mousemove", (e) => {
+canvas.addEventListener("mousemove", e => {
   // 마우스를 움직일때
   if (isPressed) {
     // 근데 누른 상태일 때
@@ -476,7 +506,7 @@ canvas.addEventListener("mousemove", (e) => {
 });
 
 // 터치 이벤트 - 마우스랑 똑같다
-canvas.addEventListener("touchstart", (e) => {
+canvas.addEventListener("touchstart", e => {
   // 기기 선택했을때
   isPressed = true;
   calculateMousePosition(e.touches[0]); // 마우스랑 다른점은 배열형태(손가락 터치 처음한 애(사람은 다섯손가락이니까))
@@ -484,7 +514,7 @@ canvas.addEventListener("touchstart", (e) => {
 canvas.addEventListener("touchend", () => {
   isPressed = false;
 });
-canvas.addEventListener("touchmove", (e) => {
+canvas.addEventListener("touchmove", e => {
   if (isPressed) {
     calculateMousePosition(e.touches[0]);
   }

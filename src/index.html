@@ -8,14 +8,26 @@
 	<link rel="stylesheet" href="./main.css">
 </head>
 <body>
+	<!-- 마룡이 캔버스 부분 -->
 	<canvas id="three-canvas"></canvas>
-	<div id="description" class="modal background">
+
+	<!-- 처음 시작할 때 나오는 설명 모달 -->
+	<div id="description" class="decriptionModal background">
 		<div class="modal mainImg">
 			<img src="./images/6.png" alt="">
 		</div>
 		<img class="modal descriptionImg" src="./images/discription.png" alt="">
 		<div id="start">시작하기</div>
 	</div>
+
+	<!-- (구)스토리 부분 영상 모달 -->
+	<div id="first" class="videoModal background">
+		<div class="modal video">
+			<iframe width="560" height="315" src="https://www.youtube.com/embed/buvhyg60PCg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+		</div>
+	</div>
+
+	<!-- 배경 음악 -->
 	<!-- <audio id="bgm" autoplay="autoplay" loop="loop" controls>
 		<source src="./sounds/BGM.mp3" type="audio/mp3" />
 	</audio> -->
