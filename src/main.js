@@ -97,11 +97,54 @@ const meshList = {
     // { path: "main.png", width: 4, height: 4, pX: 3, pY: 3, pZ: 7 },
   ],
   easterEgg: [],
-  story1: [{ path: "/models/미륵사지.glb", pX: 13.5, pY: -3, pZ: 7.2 }],
+  story1: [
+    {
+      path: "/models/미륵산배경2.glb",
+      pX: 13,
+      pY: -3,
+      pZ: 6,
+      rX: 0,
+      rY: -1.1,
+      rZ: 0,
+    },
+    {
+      path: "/models/미륵사지.glb",
+      pX: 15.3,
+      pY: -3,
+      pZ: 7.1,
+      rX: 80,
+      rY: 84.8,
+      rZ: 40.4,
+    },
+  ],
   story2: [
-    { path: "/models/동고도리.glb", pX: 18, pY: -3, pZ: 23.5 },
-    { path: "/models/동고도리.glb", pX: 21.3, pY: -3, pZ: 22.1 },
-    { path: "/models/동고도리비석.glb", pX: 20.4, pY: -3, pZ: 23.8 },
+    {
+      path: "/models/동고도리.glb",
+      pX: 18,
+      pY: -3,
+      pZ: 23.5,
+      rX: 80,
+      rY: 84.8,
+      rZ: 40.4,
+    },
+    {
+      path: "/models/동고도리.glb",
+      pX: 21.3,
+      pY: -3,
+      pZ: 22.1,
+      rX: 80,
+      rY: 84.8,
+      rZ: 40.4,
+    },
+    {
+      path: "/models/동고도리비석.glb",
+      pX: 20.4,
+      pY: -3,
+      pZ: 23.8,
+      rX: 80,
+      rY: 84.8,
+      rZ: 40.4,
+    },
   ],
 };
 
@@ -155,6 +198,9 @@ meshList.story1.map(img => {
     x: img.pX,
     y: img.pY,
     z: img.pZ,
+    x2: img.rX,
+    y2: img.rY,
+    z2: img.rZ,
   });
   storyMesh0.push(suktop);
 });
@@ -168,6 +214,9 @@ meshList.story2.map(img => {
     x: img.pX,
     y: img.pY,
     z: img.pZ,
+    x2: img.rX,
+    y2: img.rY,
+    z2: img.rZ,
   });
   storyMesh1.push(suktop);
 });
@@ -344,7 +393,7 @@ function draw() {
               gsap.to(sMesh.modelMesh.position, {
                 // 집 메쉬가
                 duration: 1, // 1초동안
-                y: 0.3, // y(위로 나오니까)
+                y: 0.05, // y(위로 나오니까)
                 ease: "Bounce.easeOut", // 재밌게 띠용(라이브러리가 가지고 있는 값)
               });
               gsap.to(camera.position, {
