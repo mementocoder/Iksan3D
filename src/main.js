@@ -103,7 +103,7 @@ const BASE_TEXT_IMG_PATH = "/images/";
 
 // 그냥 땅바닥 이미지
 const decoMesh = [];
-meshList.deco.map(img => {
+meshList.deco.map((img) => {
   const text = new Meshes(`${BASE_TEXT_IMG_PATH}${img.path}`, textureLoader);
   const _spotMeshText = text.setMesh(
     img.width,
@@ -120,7 +120,7 @@ meshList.deco.map(img => {
 
 // 세운 이미지
 const standMesh = [];
-meshList.stand.map(img => {
+meshList.stand.map((img) => {
   const text = new Meshes(`${BASE_TEXT_IMG_PATH}${img.path}`, textureLoader);
   const _spotMeshText = text.setMesh(
     img.width,
@@ -139,7 +139,7 @@ meshList.stand.map(img => {
 
 // 영역 들어갔을때 뿅 올라오는 이미지
 const storyMesh0 = [];
-meshList.story[0].map(img => {
+meshList.story[0].map((img) => {
   const text = new Meshes(`${BASE_TEXT_IMG_PATH}${img.path}`, textureLoader);
   const _spotMeshText = text.setMesh(
     img.width,
@@ -211,24 +211,46 @@ const house = new House({
 });
 
 // 3D 모델
-// const suktop = new House({
+// const sgdory = new House({
 //   gltfLoader,
 //   scene,
-//   modelSrc: "/models/서고동리.glb",
-//   x: 0,
-//   y: 5,
+//   modelSrc: "/models/서고도리.glb",
+//   x: -5,
+//   y: 1,
 //   z: 0,
 // });
-
-// 3D 모델
-// const suktop = new House({
-//   gltfLoader,
-//   scene,
-//   modelSrc: "/models/서고동리.glb",
-//   x: 0,
-//   y: 5,
-//   z: 0,
-// });
+const suktop = new House({
+  gltfLoader,
+  scene,
+  modelSrc: "/models/미륵사지.glb",
+  x: -5,
+  y: 1,
+  z: 3,
+});
+const dgdory = new House({
+  gltfLoader,
+  scene,
+  modelSrc: "/models/동고도리.glb",
+  x: -6,
+  y: 1,
+  z: 0,
+});
+const sgdory = new House({
+  gltfLoader,
+  scene,
+  modelSrc: "/models/동고도리.glb",
+  x: -8,
+  y: 1,
+  z: 1,
+});
+const dgdorybisuk = new House({
+  gltfLoader,
+  scene,
+  modelSrc: "/models/동고도리비석.glb",
+  x: -5,
+  y: 1,
+  z: 0,
+});
 
 // 마룡
 const player = new Player({
@@ -245,7 +267,7 @@ let destinationPoint = new THREE.Vector3();
 let angle = 0; // 일분이가 걸어갈 각도, 마우스를 계속 바라보는거 자체가 각도를 계산했다는거
 let isPressed = false; // 마우스를 누르고 있는 상태
 
-let isClick = "true";
+let isClick = "false";
 // 그리기
 const clock = new THREE.Clock();
 function draw() {
@@ -321,7 +343,7 @@ function draw() {
           console.log("멈춤");
         }
         // spot메쉬(노란색)에 진입할때
-        storyMesh0.forEach(sMesh => {
+        storyMesh0.forEach((sMesh) => {
           if (
             Math.abs(spotMesh1.position.x - player.modelMesh.position.x) <
               1.5 &&
@@ -422,7 +444,7 @@ function raycasting() {
 }
 
 // 마우스 이벤트
-canvas.addEventListener("mousedown", e => {
+canvas.addEventListener("mousedown", (e) => {
   //마우스 눌렀을 때
   isPressed = true;
 
@@ -433,7 +455,7 @@ canvas.addEventListener("mouseup", () => {
   // 마우스 땠을 때
   isPressed = false;
 });
-canvas.addEventListener("mousemove", e => {
+canvas.addEventListener("mousemove", (e) => {
   // 마우스를 움직일때
   if (isPressed) {
     // 근데 누른 상태일 때
@@ -442,7 +464,7 @@ canvas.addEventListener("mousemove", e => {
 });
 
 // 터치 이벤트 - 마우스랑 똑같다
-canvas.addEventListener("touchstart", e => {
+canvas.addEventListener("touchstart", (e) => {
   // 기기 선택했을때
   isPressed = true;
   calculateMousePosition(e.touches[0]); // 마우스랑 다른점은 배열형태(손가락 터치 처음한 애(사람은 다섯손가락이니까))
@@ -450,7 +472,7 @@ canvas.addEventListener("touchstart", e => {
 canvas.addEventListener("touchend", () => {
   isPressed = false;
 });
-canvas.addEventListener("touchmove", e => {
+canvas.addEventListener("touchmove", (e) => {
   if (isPressed) {
     calculateMousePosition(e.touches[0]);
   }
