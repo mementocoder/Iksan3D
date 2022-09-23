@@ -7,6 +7,15 @@
 	 }
 }
 
+@keyframes moveEventimg {
+	from {
+		transform: translate(0,100%)
+	}
+	 to {
+		 transform: translate(0,0)
+	 }
+}
+
 body {
 	overflow: hidden;
 	margin: 0;
@@ -60,4 +69,25 @@ body {
 .video iframe {
 	width: 80vw;
 	height: 90vh;
+}
+.eventModal {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	z-index: 1000;
+	display: none;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+.imgContainer {
+	width: 80vw;
+	height: 100vh;
+	background-image: url('./images/경찰마룡.png');
+	background-repeat: no-repeat;
+	background-size: contain;
+	background-position: center;
+	animation: moveEventimg 2s;
 }

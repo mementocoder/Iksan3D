@@ -73,6 +73,48 @@ directionalLight.shadow.camera.near = -100;
 directionalLight.shadow.camera.far = 100;
 scene.add(directionalLight);
 
+// 스프라이트 애니메이션 함수
+function TextureAnimator(
+  texture,
+  tilesHoriz,
+  tilesVert,
+  numTiles,
+  tileDispDuration
+) {
+  // note: texture passed by reference, will be updated by the update function.
+
+  this.tilesHorizontal = tilesHoriz;
+  this.tilesVertical = tilesVert;
+  // how many images does this spritesheet contain?
+  //  usually equals tilesHoriz * tilesVert, but not necessarily,
+  //  if there at blank tiles at the bottom of the spritesheet.
+  this.numberOfTiles = numTiles;
+  texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+  texture.repeat.set(1 / this.tilesHorizontal, 1 / this.tilesVertical);
+
+  // how long should each image be displayed?
+  this.tileDisplayDuration = tileDispDuration;
+
+  // how long has the current image been displayed?
+  this.currentDisplayTime = 0;
+
+  // which image is currently being displayed?
+  this.currentTile = 0;
+
+  this.update = function (milliSec) {
+    this.currentDisplayTime += milliSec;
+    while (this.currentDisplayTime > this.tileDisplayDuration) {
+      this.currentDisplayTime -= this.tileDisplayDuration;
+      this.currentTile++;
+      if (this.currentTile == this.numberOfTiles) this.currentTile = 0;
+      var currentColumn = this.currentTile % this.tilesHorizontal;
+      texture.offset.x = currentColumn / this.tilesHorizontal;
+      var currentRow = Math.floor(this.currentTile / this.tilesHorizontal);
+      texture.offset.y = currentRow / this.tilesVertical;
+    }
+  };
+}
+
 // Mesh
 const meshes = []; // 추후 코드 수정 필요
 const floorMesh = new THREE.Mesh(
@@ -91,7 +133,10 @@ scene.add(floorMesh);
 meshes.push(floorMesh);
 
 const meshList = {
-  deco: [{ path: "마룡테스트.gif", width: 3, height: 3, pX: 0, pY: 0, pZ: 0 }],
+  sprite: [{ path: "start.png", width: 5, height: 5, pX: 0, pY: 0.15, pZ: 0 }],
+  deco: [
+    { path: "start2.png", width: 3, height: 3, pX: -1.35, pY: 0.1, pZ: -2.7 },
+  ],
   stand: [
     // { path: "main.png", width: 10, height: 10, pX: 5, pY: 3, pZ: 0 },
     // { path: "main.png", width: 4, height: 4, pX: 3, pY: 3, pZ: 7 },
@@ -99,19 +144,10 @@ const meshList = {
   easterEgg: [],
   story1: [
     {
-      path: "/models/미륵산배경2.glb",
-      pX: 13,
-      pY: -3,
-      pZ: 6,
-      rX: 0,
-      rY: -1.1,
-      rZ: 0,
-    },
-    {
       path: "/models/미륵사지.glb",
-      pX: 15.3,
-      pY: -3,
-      pZ: 7.1,
+      pX: 13.1,
+      pY: -6,
+      pZ: 8.6,
       rX: 80,
       rY: 84.8,
       rZ: 40.4,
@@ -149,6 +185,32 @@ const meshList = {
 };
 
 const BASE_TEXT_IMG_PATH = "/images/";
+
+const spriteAni = [];
+const spriteMesh = [];
+meshList.sprite.map(img => {
+  var texture = textureLoader.load(`${BASE_TEXT_IMG_PATH}${img.path}`);
+
+  var box = new THREE.Mesh(
+    new THREE.PlaneGeometry(img.width, img.height),
+    new THREE.MeshBasicMaterial({ map: texture, transparent: true })
+  );
+  box.position.set(img.pX, img.pY, img.pZ);
+  box.rotation.x = -Math.PI / 2;
+  box.rotation.z = 0.45;
+  spriteMesh.push(box);
+  scene.add(box);
+
+  var ani = new TextureAnimator(
+    texture, // 스프라이트 텍스쳐 객체 지정
+    2, // 가로 갯수
+    2, // 세로 갯수
+    8, // 총 갯수
+    1000 // 이미지컷당 변경 시간간격(1000분의 1초)
+  );
+
+  spriteAni.push(ani);
+});
 
 // 그냥 땅바닥 이미지
 const decoMesh = [];
@@ -239,7 +301,7 @@ function spot(x, y, x2, y2) {
   return spotMesh;
 }
 
-const spotMesh1 = spot(6, 6, 13, 6);
+const spotMesh1 = spot(3.5, 3.5, 13.9, 5.2);
 const spotMesh2 = spot(6, 6, 20, 23);
 const spotMesh3 = spot(6, 6, 10, 40);
 const spotMesh4 = spot(6, 6, 27, 57);
@@ -297,17 +359,20 @@ let angle = 0; // 일분이가 걸어갈 각도, 마우스를 계속 바라보�
 let isPressed = false; // 마우스를 누르고 있는 상태
 
 let isClick = "false";
+
 // 그리기
 const clock = new THREE.Clock();
 function draw() {
   const delta = clock.getDelta();
+
+  spriteAni[0].update(1000 * delta);
+
   if (player.mixer) player.mixer.update(delta); // mixer는 애니메이션 때문에 해준거죠. 업데이트 계속 해줘야 애니메이션이 됨
   // console.log(mouse.x + " " + mouse.y);
-
   if (isClick == "false") {
     if (player.modelMesh) {
       // 모델 리소스가 적용(로드)될때까지 기다림
-      camera.lookAt(decoMesh[0].position); // 카메라가 플레이어의 모델 mesh를 바라보게하는거
+      camera.lookAt(spriteMesh[0].position); // 카메라가 플레이어의 모델 mesh를 바라보게하는거
       if (mouse.x > -1 && mouse.x < -0.5) {
         if (mouse.y > -1 && mouse.y < -0.5) {
           // camera.lookAt(player.modelMesh.position);
@@ -381,8 +446,9 @@ function draw() {
         // spot메쉬(노란색)에 진입할때
         storyMesh0.forEach(sMesh => {
           if (
-            Math.abs(spotMesh1.position.x - player.modelMesh.position.x) < 3 &&
-            Math.abs(spotMesh1.position.z - player.modelMesh.position.z) < 3
+            Math.abs(spotMesh1.position.x - player.modelMesh.position.x) <
+              5.75 &&
+            Math.abs(spotMesh1.position.z - player.modelMesh.position.z) < 5.75
           ) {
             // 집 보이도록
             if (!sMesh.visible) {
@@ -390,12 +456,21 @@ function draw() {
               console.log("나와");
               sMesh.visible = true;
               spotMesh1.material.color.set("seagreen");
-              gsap.to(sMesh.modelMesh.position, {
-                // 집 메쉬가
-                duration: 1, // 1초동안
-                y: 0.05, // y(위로 나오니까)
-                ease: "Bounce.easeOut", // 재밌게 띠용(라이브러리가 가지고 있는 값)
-              });
+              if (sMesh.modelMesh.name == "미륵사지석탑") {
+                gsap.to(sMesh.modelMesh.position, {
+                  // 집 메쉬가
+                  duration: 1, // 1초동안
+                  y: 0.8, // y(위로 나오니까)
+                  ease: "Bounce.easeOut", // 재밌게 띠용(라이브러리가 가지고 있는 값)
+                });
+              } else {
+                gsap.to(sMesh.modelMesh.position, {
+                  // 집 메쉬가
+                  duration: 1, // 1초동안
+                  y: 0.02, // y(위로 나오니까)
+                  ease: "Bounce.easeOut", // 재밌게 띠용(라이브러리가 가지고 있는 값)
+                });
+              }
               gsap.to(camera.position, {
                 // 카메라 포지션 변경
                 duration: 1,
@@ -408,10 +483,6 @@ function draw() {
 
             sMesh.visible = false;
             spotMesh1.material.color.set("yellow");
-            gsap.to(sMesh.modelMesh.position, {
-              duration: 0.5,
-              y: -3, // 원위치
-            });
             gsap.to(camera.position, {
               //원위치
               duration: 1,
@@ -429,7 +500,7 @@ function draw() {
               //안보이는 상태라면 보이도록
               console.log("나와");
               sMesh.visible = true;
-              spotMesh2.material.color.set("seagreen");
+              spotMesh2.material.color.set("#88E700");
               gsap.to(sMesh.modelMesh.position, {
                 // 집 메쉬가
                 duration: 1, // 1초동안
@@ -447,11 +518,6 @@ function draw() {
             console.log("들어가");
 
             sMesh.visible = false;
-            spotMesh2.material.color.set("yellow");
-            gsap.to(sMesh.modelMesh.position, {
-              duration: 0.5,
-              y: -3, // 원위치
-            });
             gsap.to(camera.position, {
               //원위치
               duration: 1,
@@ -472,8 +538,8 @@ function draw() {
 }
 
 function playVideo(x, z) {
-  if (x > 12.5 && x < 13.5) {
-    if (z > 5.5 && z < 6.5) {
+  if (x > 11.5 && x < 16.5) {
+    if (z > 4.5 && z < 8.0) {
       const first = document.querySelector("#first");
       first.style.visibility = "visible";
       mouse.x = 0;
@@ -481,6 +547,18 @@ function playVideo(x, z) {
       first.addEventListener("click", e => {
         first.style.visibility = "hidden";
       });
+    }
+  }
+}
+
+function playEvent(x, z) {
+  if (x > 11.5 && x < 16.5) {
+    if (z > 4.5 && z < 8.0) {
+      const first = document.querySelector("#event");
+      first.style.display = "flex";
+      mouse.x = 0;
+      mouse.y = 0;
+      setTimeout(() => (first.style.display = "none"), 2000);
     }
   }
 }
@@ -498,7 +576,8 @@ function checkIntersects() {
       destinationPoint.z = item.point.z;
       player.modelMesh.lookAt(destinationPoint); // 일분이가 마우스 좌표쪽을 바라봄
       player.moving = true; // 움직이는 상태니 true로 해줌
-      playVideo(item.point.x, item.point.z);
+      // playVideo(item.point.x, item.point.z);
+      playEvent(item.point.x, item.point.z);
       console.log(item.point.x + " " + item.point.z);
 
       pointerMesh.position.x = destinationPoint.x; // 일분이 밑 빨간애도 이동시켜줘야하니까

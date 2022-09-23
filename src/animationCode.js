@@ -42,7 +42,7 @@ function TextureAnimator(
 var a = textureLoader.load("/images/ezgif.com-gif-maker.png");
 
 var box = new THREE.Mesh(
-  new THREE.PlaneGeometry(1, 1),
+  new THREE.PlaneGeometry(1, 1, 1),
   new THREE.MeshBasicMaterial({ map: a, transparent: true })
 );
 
