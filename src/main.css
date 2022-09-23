@@ -82,10 +82,15 @@ body {
   align-items: center;
   flex-direction: column;
 }
+#event .imgContainer {
+  background-image: url("./images/event2.png");
+}
+#event2 .imgContainer {
+  background-image: url("./images/event1.png");
+}
 .imgContainer {
   width: 80vw;
   height: 100vh;
-  background-image: url("./images/event2.png");
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;

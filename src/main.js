@@ -167,6 +167,28 @@ const meshList = {
       rY: 0.47,
       rZ: 0,
     },
+    {
+      path: "event3.png",
+      width: 2,
+      height: 2,
+      pX: 21,
+      pY: 0.1,
+      pZ: 1.2,
+      rX: -Math.PI / 2,
+      rY: 0,
+      rZ: 0.45,
+    },
+    {
+      path: "event3.png",
+      width: 2,
+      height: 2,
+      pX: -8.2,
+      pY: 0.1,
+      pZ: 4.3,
+      rX: -Math.PI / 2,
+      rY: 0,
+      rZ: 0.45,
+    },
   ],
   deco: [
     { path: "check.png", width: 4, height: 0.88, pX: 1.24, pY: 0.1, pZ: 2.85 },
@@ -260,6 +282,14 @@ const meshList = {
       pX: 17.5,
       pY: 0.1,
       pZ: -4.3,
+    },
+    {
+      path: "mesh-deco10.png",
+      width: 5,
+      height: 5,
+      pX: 23.8,
+      pY: 0.1,
+      pZ: 1.7,
     },
   ],
   stand: [
@@ -586,6 +616,8 @@ function draw() {
   spriteAni[0].update(1000 * delta);
   spriteAni[1].update(1000 * delta);
   spriteAni[2].update(1000 * delta);
+  spriteAni[3].update(1000 * delta);
+  spriteAni[4].update(1000 * delta);
 
   if (player.mixer) player.mixer.update(delta); // mixer는 애니메이션 때문에 해준거죠. 업데이트 계속 해줘야 애니메이션이 됨
   // console.log(mouse.x + " " + mouse.y);
@@ -812,6 +844,19 @@ function playEvent(x, z) {
         mouse.x = 0;
         mouse.y = 0;
         setTimeout(() => (event.style.display = "none"), 2000);
+        played = "true";
+        setTimeout(() => (played = "false"), 3000);
+      }
+    }
+  }
+  if (x > 22 && x < 25) {
+    if (z > -0.5 && z < 2.5) {
+      if (played == "false") {
+        const event2 = document.querySelector("#event2");
+        event2.style.display = "flex";
+        mouse.x = 0;
+        mouse.y = 0;
+        setTimeout(() => (event2.style.display = "none"), 2000);
         played = "true";
         setTimeout(() => (played = "false"), 3000);
       }
