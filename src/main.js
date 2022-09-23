@@ -8,7 +8,7 @@ import gsap from "gsap";
 // Modal
 const description = document.querySelector("#description");
 const startBtn = document.querySelector("#start");
-startBtn.addEventListener("click", e => {
+startBtn.addEventListener("click", (e) => {
   description.style.visibility = "hidden";
 });
 
@@ -265,7 +265,7 @@ const meshList = {
       height: 8,
       pX: 17,
       pY: 0.1,
-      pZ: 12.8,
+      pZ: 13.8,
     },
     {
       path: "mesh-deco8.png",
@@ -290,6 +290,22 @@ const meshList = {
       pX: 23.8,
       pY: 0.1,
       pZ: 1.7,
+    },
+    {
+      path: "mesh-deco11.png",
+      width: 5,
+      height: 5,
+      pX: 19,
+      pY: 0.1,
+      pZ: 20,
+    },
+    {
+      path: "arrow2.png",
+      width: 8,
+      height: 8,
+      pX: 19,
+      pY: 0.1,
+      pZ: 30,
     },
   ],
   stand: [
@@ -435,12 +451,11 @@ const meshList = {
     },
   ],
 };
-
 const BASE_TEXT_IMG_PATH = "/images/";
 
 const spriteAni = [];
 const spriteMesh = [];
-meshList.sprite.map(img => {
+meshList.sprite.map((img) => {
   const texture = textureLoader.load(`${BASE_TEXT_IMG_PATH}${img.path}`);
 
   const box = new THREE.Mesh(
@@ -467,7 +482,7 @@ meshList.sprite.map(img => {
 
 // 그냥 땅바닥 이미지
 const decoMesh = [];
-meshList.deco.map(img => {
+meshList.deco.map((img) => {
   const text = new Meshes(`${BASE_TEXT_IMG_PATH}${img.path}`, textureLoader);
   const _spotMeshText = text.setMesh(
     img.width,
@@ -485,7 +500,7 @@ meshList.deco.map(img => {
 const gltfLoader = new GLTFLoader();
 // 세운 이미지
 const standMesh = [];
-meshList.stand.map(img => {
+meshList.stand.map((img) => {
   const suktop = new House({
     gltfLoader,
     scene,
@@ -502,7 +517,7 @@ meshList.stand.map(img => {
 
 // 영역 들어갔을때 뿅 올라오는 이미지
 const storyMesh0 = [];
-meshList.story1.map(img => {
+meshList.story1.map((img) => {
   const suktop = new House({
     gltfLoader,
     scene,
@@ -518,7 +533,7 @@ meshList.story1.map(img => {
 });
 
 const storyMesh1 = [];
-meshList.story2.map(img => {
+meshList.story2.map((img) => {
   const suktop = new House({
     gltfLoader,
     scene,
@@ -683,7 +698,7 @@ function draw() {
           console.log("멈춤");
         }
         // spot메쉬(노란색)에 진입할때
-        storyMesh0.forEach(sMesh => {
+        storyMesh0.forEach((sMesh) => {
           if (
             Math.abs(spotMesh1.position.x - player.modelMesh.position.x) < 4 &&
             Math.abs(spotMesh1.position.z - player.modelMesh.position.z) < 4
@@ -727,7 +742,7 @@ function draw() {
             });
           }
         });
-        storyMesh1.forEach(sMesh => {
+        storyMesh1.forEach((sMesh) => {
           if (
             Math.abs(spotMesh2.position.x - player.modelMesh.position.x) < 4 &&
             Math.abs(spotMesh2.position.z - player.modelMesh.position.z) < 4
@@ -755,6 +770,10 @@ function draw() {
                 y: 3.8,
                 ease: "Bounce.easeOut",
               });
+              gsap.to(decoMesh[16].position, {
+                duration: 1,
+                y: -0.1,
+              });
             }
           } else if (sMesh.visible) {
             // 집 보이는 상태라면 반대로 집어넣어
@@ -779,37 +798,55 @@ function draw() {
   renderer.render(scene, camera);
   renderer.setAnimationLoop(draw);
 }
-console.dir(first);
 
 function playVideo(x, z) {
-  if (x > 11.5 && x < 16.5 && z > 4.5 && z < 8.0) {
-    const first = document.querySelector("#first");
-    first.style.display = "flex";
-    mouse.x = 0;
-    mouse.y = 0;
-
-    first.addEventListener("click", e => {
-      first.style.display = "none";
-    });
+  if (x > 11.5 && x < 16.5) {
+    if (z > 4.5 && z < 8.0) {
+      if (played == "false") {
+        const first = document.querySelector("#first");
+        first.style.display = "flex";
+        mouse.x = 0;
+        mouse.y = 0;
+        played = "true";
+        first.addEventListener("click", (e) => {
+          first.style.display = "none";
+          setTimeout(() => (played = "false"), 3000);
+        });
+      }
+    }
   }
-  if (x > 17 && x < 22 && z > 21 && z < 25) {
-    const second = document.querySelector("#second");
-    second.style.display = "flex";
-    mouse.x = 0;
-    mouse.y = 0;
-    second.addEventListener("click", e => {
-      second.style.display = "none";
-    });
+  if (x > 17 && x < 22) {
+    if (z > 21 && z < 25) {
+      if (played == "false") {
+        const second = document.querySelector("#second");
+        second.style.display = "flex";
+        mouse.x = 0;
+        mouse.y = 0;
+        played = "true";
+        second.addEventListener("click", (e) => {
+          second.style.display = "none";
+          setTimeout(() => (played = "false"), 3000);
+        });
+      }
+    }
   }
+  19.5;
+  23;
 }
 
 function playEvent(x, z) {
-  if (x > -12.5 && x < -7.5 && z > 3 && z < 8.0) {
-    const event = document.querySelector("#event");
-    event.style.display = "flex";
-    mouse.x = 0;
-    mouse.y = 0;
-    setTimeout(() => (event.style.display = "none"), 2000);
+  if (x > -7.5 && x < -2.5) {
+    if (z > 2.5 && z < 5.5) {
+      if (played == "false") {
+        const event = document.querySelector("#event");
+        event.style.display = "flex";
+        mouse.x = 0;
+        mouse.y = 0;
+        setTimeout(() => (event.style.display = "none"), 2000);
+        played = "true";
+        setTimeout(() => (played = "false"), 3000);
+      }
+    }
   }
   if (x > 22 && x < 25) {
     if (z > -0.5 && z < 2.5) {
@@ -825,7 +862,6 @@ function playEvent(x, z) {
     }
   }
 }
-
 function checkIntersects() {
   raycaster.setFromCamera(mouse, camera);
   // 클릭하면 실행됨.
@@ -877,7 +913,7 @@ function raycasting() {
 }
 
 // 마우스 이벤트
-canvas.addEventListener("mousedown", e => {
+canvas.addEventListener("mousedown", (e) => {
   //마우스 눌렀을 때
   isPressed = true;
 
@@ -888,7 +924,7 @@ canvas.addEventListener("mouseup", () => {
   // 마우스 땠을 때
   isPressed = false;
 });
-canvas.addEventListener("mousemove", e => {
+canvas.addEventListener("mousemove", (e) => {
   // 마우스를 움직일때
   if (isPressed) {
     // 근데 누른 상태일 때
@@ -897,7 +933,7 @@ canvas.addEventListener("mousemove", e => {
 });
 
 // 터치 이벤트 - 마우스랑 똑같다
-canvas.addEventListener("touchstart", e => {
+canvas.addEventListener("touchstart", (e) => {
   // 기기 선택했을때
   isPressed = true;
   calculateMousePosition(e.touches[0]); // 마우스랑 다른점은 배열형태(손가락 터치 처음한 애(사람은 다섯손가락이니까))
@@ -905,7 +941,7 @@ canvas.addEventListener("touchstart", e => {
 canvas.addEventListener("touchend", () => {
   isPressed = false;
 });
-canvas.addEventListener("touchmove", e => {
+canvas.addEventListener("touchmove", (e) => {
   if (isPressed) {
     calculateMousePosition(e.touches[0]);
   }
