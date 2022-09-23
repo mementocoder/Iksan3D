@@ -133,10 +133,51 @@ scene.add(floorMesh);
 meshes.push(floorMesh);
 
 const meshList = {
-  sprite: [{ path: "start.png", width: 5, height: 5, pX: 0, pY: 0.12, pZ: 0 }],
+  sprite: [
+    {
+      path: "start.png",
+      width: 4,
+      height: 5,
+      pX: 0,
+      pY: 0.12,
+      pZ: 0,
+      rX: -Math.PI / 2,
+      rY: 0,
+      rZ: 0.45,
+    },
+    {
+      path: "click.png",
+      width: 1.5,
+      height: 1.5,
+      pX: 15.5,
+      pY: -2,
+      pZ: 4.5,
+      rX: 0,
+      rY: 0.47,
+      rZ: 0,
+    },
+    {
+      path: "click.png",
+      width: 1.5,
+      height: 1.5,
+      pX: 22.5,
+      pY: -2,
+      pZ: 21.3,
+      rX: 0,
+      rY: 0.47,
+      rZ: 0,
+    },
+  ],
   deco: [
-    { path: "check.png", width: 3, height: 1, pX: 1.24, pY: 0.1, pZ: 2.85 },
-    { path: "check2.png", width: 3, height: 1, pX: 1.24, pY: -0.1, pZ: 2.85 },
+    { path: "check.png", width: 4, height: 0.88, pX: 1.24, pY: 0.1, pZ: 2.85 },
+    {
+      path: "check2.png",
+      width: 4,
+      height: 0.88,
+      pX: 1.24,
+      pY: -0.1,
+      pZ: 2.85,
+    },
     { path: "start2.png", width: 3, height: 3, pX: -1.35, pY: 0.1, pZ: -2.7 },
     { path: "foot.png", width: 3, height: 3, pX: 3.85, pY: 0.1, pZ: -2.35 },
     { path: "mesh-deco1.png", width: 3, height: 3, pX: 1.9, pY: 0.1, pZ: -5.5 },
@@ -152,14 +193,175 @@ const meshList = {
       path: "mesh-deco3.png",
       width: 8,
       height: 8,
-      pX: -10,
+      pX: -5,
       pY: 0.1,
-      pZ: 5.5,
+      pZ: 4.5,
+    },
+    {
+      path: "mesh-deco4.png",
+      width: 6,
+      height: 6,
+      pX: 13.8,
+      pY: 0.1,
+      pZ: 5.6,
+    },
+    {
+      path: "arrow.png",
+      width: 8,
+      height: 8,
+      pX: 6.4,
+      pY: 0.1,
+      pZ: 6.4,
+    },
+    {
+      path: "mesh-deco6.png",
+      width: 6,
+      height: 6,
+      pX: 2.7,
+      pY: 0.1,
+      pZ: 12,
+    },
+    {
+      path: "mesh-deco7.png",
+      width: 1,
+      height: 1,
+      pX: -3.8,
+      pY: 0.1,
+      pZ: 0.7,
+    },
+    {
+      path: "mesh-deco5.png",
+      width: 3,
+      height: 3,
+      pX: 19.6,
+      pY: 0.1,
+      pZ: 8,
+    },
+    {
+      path: "arrow2.png",
+      width: 8,
+      height: 8,
+      pX: 17,
+      pY: 0.1,
+      pZ: 12.8,
+    },
+    {
+      path: "mesh-deco8.png",
+      width: 3,
+      height: 3,
+      pX: 9.7,
+      pY: 0.1,
+      pZ: 17.1,
+    },
+    {
+      path: "mesh-deco9.png",
+      width: 5,
+      height: 5,
+      pX: 17.5,
+      pY: 0.1,
+      pZ: -4.3,
     },
   ],
   stand: [
-    // { path: "main.png", width: 10, height: 10, pX: 5, pY: 3, pZ: 0 },
-    // { path: "main.png", width: 4, height: 4, pX: 3, pY: 3, pZ: 7 },
+    {
+      path: "/models/mesh-stand2.glb",
+      width: 3,
+      height: 3,
+      pX: 6.5,
+      pY: 0.5,
+      pZ: 4.4,
+      rX: 80,
+      rY: 84.8,
+      rZ: 40.4,
+    },
+    {
+      path: "/models/mesh-stand2.glb",
+      width: 3,
+      height: 3,
+      pX: 8.6,
+      pY: 0.3,
+      pZ: 4.7,
+      rX: 80,
+      rY: 84.8,
+      rZ: 40.4,
+    },
+    {
+      path: "/models/mesh-stand2.glb",
+      width: 3,
+      height: 3,
+      pX: 8.3,
+      pY: 0.7,
+      pZ: 2.8,
+      rX: 80,
+      rY: 84.8,
+      rZ: 40.4,
+    },
+    {
+      path: "/models/mesh-stand4.glb",
+      width: 3,
+      height: 3,
+      pX: 2.2,
+      pY: 0.5,
+      pZ: 20.8,
+      rX: 80,
+      rY: 84.8,
+      rZ: 40.4,
+    },
+    {
+      path: "/models/mesh-stand5.glb",
+      width: 3,
+      height: 3,
+      pX: 4.0,
+      pY: 0.5,
+      pZ: 21.7,
+      rX: 80,
+      rY: 84.8,
+      rZ: 40.4,
+    },
+    {
+      path: "/models/mesh-stand4.glb",
+      width: 3,
+      height: 3,
+      pX: 3.8,
+      pY: 0.5,
+      pZ: 18.4,
+      rX: 80,
+      rY: 84.8,
+      rZ: 40.4,
+    },
+    {
+      path: "/models/mesh-stand1.glb",
+      width: 3,
+      height: 3,
+      pX: 12,
+      pY: 0.5,
+      pZ: -6.1,
+      rX: 80,
+      rY: 84.8,
+      rZ: 40.4,
+    },
+    {
+      path: "/models/mesh-stand1.glb",
+      width: 3,
+      height: 3,
+      pX: 10.0,
+      pY: 0.5,
+      pZ: -6.6,
+      rX: 80,
+      rY: 84.8,
+      rZ: 40.4,
+    },
+    {
+      path: "/models/mesh-stand1.glb",
+      width: 3,
+      height: 3,
+      pX: 12.4,
+      pY: 0.5,
+      pZ: -8.8,
+      rX: 80,
+      rY: 84.8,
+      rZ: 40.4,
+    },
   ],
   easterEgg: [],
   story1: [
@@ -216,8 +418,9 @@ meshList.sprite.map(img => {
     new THREE.MeshBasicMaterial({ map: texture, transparent: true })
   );
   box.position.set(img.pX, img.pY, img.pZ);
-  box.rotation.x = -Math.PI / 2;
-  box.rotation.z = 0.45;
+  box.rotation.x = img.rX;
+  box.rotation.y = img.rY;
+  box.rotation.z = img.rZ;
   spriteMesh.push(box);
   scene.add(box);
 
@@ -225,7 +428,7 @@ meshList.sprite.map(img => {
     texture, // 스프라이트 텍스쳐 객체 지정
     2, // 가로 갯수
     2, // 세로 갯수
-    8, // 총 갯수
+    4, // 총 갯수
     1000 // 이미지컷당 변경 시간간격(1000분의 1초)
   );
 
@@ -249,26 +452,23 @@ meshList.deco.map(img => {
   scene.add(_spotMeshText);
 });
 
+const gltfLoader = new GLTFLoader();
 // 세운 이미지
 const standMesh = [];
 meshList.stand.map(img => {
-  const text = new Meshes(`${BASE_TEXT_IMG_PATH}${img.path}`, textureLoader);
-  const _spotMeshText = text.setMesh(
-    img.width,
-    img.height,
-    img.pX,
-    img.pY,
-    img.pZ
-  );
-  _spotMeshText.rotation.x = 0;
-  _spotMeshText.rotation.y = 0.47;
-  _spotMeshText.castShadow = true;
-
-  standMesh.push(_spotMeshText);
-  scene.add(_spotMeshText);
+  const suktop = new House({
+    gltfLoader,
+    scene,
+    modelSrc: img.path,
+    x: img.pX,
+    y: img.pY,
+    z: img.pZ,
+    x2: img.rX,
+    y2: img.rY,
+    z2: img.rZ,
+  });
+  standMesh.push(suktop);
 });
-
-const gltfLoader = new GLTFLoader();
 
 // 영역 들어갔을때 뿅 올라오는 이미지
 const storyMesh0 = [];
@@ -308,12 +508,10 @@ function spot(x, y, x2, y2) {
   const spotMesh = new THREE.Mesh(
     new THREE.PlaneGeometry(x, y),
     new THREE.MeshStandardMaterial({
-      color: "yellow",
       transparent: true,
-      opacity: 0.5,
     })
   );
-  spotMesh.position.set(x2, 0.005, y2);
+  spotMesh.position.set(x2, -0.1, y2);
   spotMesh.rotation.x = -Math.PI / 2;
   spotMesh.rotation.z = 0.45;
   spotMesh.receiveShadow = true;
@@ -379,13 +577,15 @@ let angle = 0; // 일분이가 걸어갈 각도, 마우스를 계속 바라보�
 let isPressed = false; // 마우스를 누르고 있는 상태
 
 let isClick = "false";
-
+let played = "false";
 // 그리기
 const clock = new THREE.Clock();
 function draw() {
   const delta = clock.getDelta();
 
   spriteAni[0].update(1000 * delta);
+  spriteAni[1].update(1000 * delta);
+  spriteAni[2].update(1000 * delta);
 
   if (player.mixer) player.mixer.update(delta); // mixer는 애니메이션 때문에 해준거죠. 업데이트 계속 해줘야 애니메이션이 됨
   // console.log(mouse.x + " " + mouse.y);
@@ -473,9 +673,8 @@ function draw() {
         // spot메쉬(노란색)에 진입할때
         storyMesh0.forEach(sMesh => {
           if (
-            Math.abs(spotMesh1.position.x - player.modelMesh.position.x) <
-              5.75 &&
-            Math.abs(spotMesh1.position.z - player.modelMesh.position.z) < 5.75
+            Math.abs(spotMesh1.position.x - player.modelMesh.position.x) < 4 &&
+            Math.abs(spotMesh1.position.z - player.modelMesh.position.z) < 4
           ) {
             // console.dir(sMesh);
             // 집 보이도록
@@ -483,24 +682,10 @@ function draw() {
               //안보이는 상태라면 보이도록
               console.log("나와");
               sMesh.visible = true;
-              spotMesh1.material.color.set("seagreen");
-              if (sMesh.name === "미륵사지석탑") {
-                gsap.to(sMesh.modelMesh.position, {
-                  // 집 메쉬가
-                  duration: 1, // 1초동안
-                  y: 0.05, // y(위로 나오니까)
-                  ease: "Bounce.easeOut", // 재밌게 띠용(라이브러리가 가지고 있는 값)
-                });
-                gsap.to(camera.position, {
-                  // 카메라 포지션 변경
-                  duration: 1,
-                  y: 3,
-                });
-              }
               gsap.to(sMesh.modelMesh.position, {
                 // 집 메쉬가
                 duration: 1, // 1초동안
-                y: 0.05, // y(위로 나오니까)
+                y: 0.8, // y(위로 나오니까)
                 ease: "Bounce.easeOut", // 재밌게 띠용(라이브러리가 가지고 있는 값)
               });
               gsap.to(camera.position, {
@@ -508,13 +693,21 @@ function draw() {
                 duration: 1,
                 y: 3,
               });
+              gsap.to(spriteMesh[1].position, {
+                duration: 1,
+                y: 3.5,
+                ease: "Bounce.easeOut",
+              });
+              gsap.to(decoMesh[7].position, {
+                duration: 1,
+                y: -0.1,
+              });
             }
           } else if (sMesh.visible) {
             // 집 보이는 상태라면 반대로 집어넣어
             console.log("들어가");
 
             sMesh.visible = false;
-            spotMesh1.material.color.set("yellow");
             gsap.to(camera.position, {
               //원위치
               duration: 1,
@@ -524,9 +717,8 @@ function draw() {
         });
         storyMesh1.forEach(sMesh => {
           if (
-            Math.abs(spotMesh2.position.x - player.modelMesh.position.x) <
-              5.75 &&
-            Math.abs(spotMesh2.position.z - player.modelMesh.position.z) < 5.75
+            Math.abs(spotMesh2.position.x - player.modelMesh.position.x) < 4 &&
+            Math.abs(spotMesh2.position.z - player.modelMesh.position.z) < 4
           ) {
             // 집 보이도록
             if (!sMesh.visible) {
@@ -544,6 +736,12 @@ function draw() {
                 // 카메라 포지션 변경
                 duration: 1,
                 y: 3,
+              });
+              gsap.to(spriteMesh[2].position, {
+                // 카메라 포지션 변경
+                duration: 1,
+                y: 3.8,
+                ease: "Bounce.easeOut",
               });
             }
           } else if (sMesh.visible) {
@@ -573,24 +771,32 @@ function draw() {
 function playVideo(x, z) {
   if (x > 11.5 && x < 16.5) {
     if (z > 4.5 && z < 8.0) {
-      const first = document.querySelector("#first");
-      first.style.display = "flex";
-      mouse.x = 0;
-      mouse.y = 0;
-      first.addEventListener("click", e => {
-        first.style.display = "none";
-      });
+      if (played == "false") {
+        const first = document.querySelector("#first");
+        first.style.display = "flex";
+        mouse.x = 0;
+        mouse.y = 0;
+        played = "true";
+        first.addEventListener("click", e => {
+          first.style.display = "none";
+          setTimeout(() => (played = "false"), 3000);
+        });
+      }
     }
   }
   if (x > 17 && x < 22) {
     if (z > 21 && z < 25) {
-      const second = document.querySelector("#second");
-      second.style.display = "flex";
-      mouse.x = 0;
-      mouse.y = 0;
-      second.addEventListener("click", e => {
-        second.style.display = "none";
-      });
+      if (played == "false") {
+        const second = document.querySelector("#second");
+        second.style.display = "flex";
+        mouse.x = 0;
+        mouse.y = 0;
+        played = "true";
+        second.addEventListener("click", e => {
+          second.style.display = "none";
+          setTimeout(() => (played = "false"), 3000);
+        });
+      }
     }
   }
   19.5;
@@ -598,13 +804,17 @@ function playVideo(x, z) {
 }
 
 function playEvent(x, z) {
-  if (x > -12.5 && x < -7.5) {
-    if (z > 3 && z < 8.0) {
-      const event = document.querySelector("#event");
-      event.style.display = "flex";
-      mouse.x = 0;
-      mouse.y = 0;
-      setTimeout(() => (event.style.display = "none"), 2000);
+  if (x > -7.5 && x < -2.5) {
+    if (z > 2.5 && z < 5.5) {
+      if (played == "false") {
+        const event = document.querySelector("#event");
+        event.style.display = "flex";
+        mouse.x = 0;
+        mouse.y = 0;
+        setTimeout(() => (event.style.display = "none"), 2000);
+        played = "true";
+        setTimeout(() => (played = "false"), 3000);
+      }
     }
   }
 }
