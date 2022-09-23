@@ -1,40 +1,49 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>익산3D</title>
-	<link rel="stylesheet" href="./main.css">
-</head>
-<body>
-	<!-- 마룡이 캔버스 부분 -->
-	<canvas id="three-canvas"></canvas>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>익산3D</title>
+    <link rel="stylesheet" href="./main.css" />
+    <link rel="stylesheet" href="./modal.css" />
+  </head>
+  <body>
+    <!-- 마룡이 캔버스 부분 -->
+    <canvas id="three-canvas"></canvas>
 
-	<!-- 처음 시작할 때 나오는 설명 모달 -->
-	<div id="description" class="decriptionModal background">
-		<div class="modal mainImg">
-			<img src="./images/6.png" alt="">
-		</div>
-		<img class="modal descriptionImg" src="./images/discription.png" alt="">
-		<div id="start">시작하기</div>
-	</div>
+    <!-- 처음 시작할 때 나오는 설명 모달 -->
+    <div id="description" class="decriptionModal background">
+      <div class="modal mainImg">
+        <img src="./images/6.png" alt="" />
+      </div>
+      <img class="modal descriptionImg" src="./images/discription.png" alt="" />
+      <div id="start">시작하기</div>
+    </div>
 
-	<!-- (구)스토리 부분 영상 모달 -->
-	<div id="first" class="videoModal background">
-		<div class="modal video">
-			<iframe width="560" height="315" src="https://www.youtube.com/embed/buvhyg60PCg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-		</div>
-	</div>
+    <!-- (구)스토리 부분 영상 모달 -->
+    <div id="first" class="videoModal background">
+      <div class="modal video story-modal">
+        <h1 class="modal__title">명소 1 : 미륵사지 석탑</h1>
+        <img src="./images/xbutton.png" class="xbutton" />
+        <iframe
+          class="modal__video"
+          src="https://www.youtube.com/embed/ptackISqk1I"
+          title="YouTube video player"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+        ></iframe>
+      </div>
+    </div>
 
-	<div id="event" class="eventModal">
-		<div class="imgContainer">
-		</div>
-	</div>
+    <div id="event" class="eventModal">
+      <div class="imgContainer"></div>
+    </div>
 
-	<!-- 배경 음악 -->
-	<!-- <audio id="bgm" autoplay="autoplay" loop="loop" controls>
+    <!-- 배경 음악 -->
+    <!-- <audio id="bgm" autoplay="autoplay" loop="loop" controls>
 		<source src="./sounds/BGM.mp3" type="audio/mp3" />
 	</audio> -->
-</body>
+  </body>
 </html>

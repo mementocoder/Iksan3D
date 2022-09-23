@@ -1,93 +1,133 @@
 @keyframes moveSpritesheet {
-	from {
-		 transform: translate(0px,0)
-	 }
-	 to {
-		 transform: translate(-100%,0)
-	 }
+  from {
+    transform: translate(0px, 0);
+  }
+  to {
+    transform: translate(-100%, 0);
+  }
+}
+
+@font-face {
+  font-family: "온글잎";
+  src: url("./font/온글잎 의연체.ttf") format("truetype");
 }
 
 @keyframes moveEventimg {
-	from {
-		transform: translate(0,100%)
-	}
-	 to {
-		 transform: translate(0,0)
-	 }
+  from {
+    transform: translate(0, 100%);
+  }
+  to {
+    transform: translate(0, 0);
+  }
 }
 
 body {
-	overflow: hidden;
-	margin: 0;
+  overflow: hidden;
+  margin: 0;
 }
 #three-canvas {
-	position: fixed;
-	left: 0;
-	top: 0;
+  position: fixed;
+  left: 0;
+  top: 0;
 }
 .background {
-	visibility: hidden;
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100vh;
-	background-color: rgba(0, 0, 0, 0.8);
-	z-index: 1000;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	flex-direction: column;
+  visibility: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 .window {
-	position: relative;
-	width: 100%;
-	height: 100%;
+  position: relative;
+  width: 100%;
+  height: 100%;
 }
 .popup {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	background-color: #ffffff;
-	box-shadow: 0 2px 7px rgba(0, 0, 0, 0.3);
-	
-	/* 임시 지정 */
-	width: 500px;
-	height: 500px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #ffffff;
+  box-shadow: 0 2px 7px rgba(0, 0, 0, 0.3);
+
+  /* 임시 지정 */
+  width: 500px;
+  height: 500px;
 }
 .mainImg {
-	width: 350px;
-	height: 230px;
-	overflow: hidden;
+  width: 350px;
+  height: 230px;
+  overflow: hidden;
 }
 .mainImg img {
-	width: 400%;
-	height: 100%;
-	animation: moveSpritesheet 2s steps(4) infinite;
+  width: 400%;
+  height: 100%;
+  animation: moveSpritesheet 2s steps(4) infinite;
 }
 .video iframe {
-	width: 80vw;
-	height: 90vh;
+  width: 80vw;
+  height: 90vh;
 }
 .eventModal {
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100vw;
-	height: 100vh;
-	z-index: 1000;
-	display: none;
-	justify-content: center;
-	align-items: center;
-	flex-direction: column;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1000;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 .imgContainer {
-	width: 80vw;
-	height: 100vh;
-	background-image: url('./images/경찰마룡.png');
-	background-repeat: no-repeat;
-	background-size: contain;
-	background-position: center;
-	animation: moveEventimg 2s;
+  width: 80vw;
+  height: 100vh;
+  background-image: url("./images/경찰마룡.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  animation: moveEventimg 2s;
+}
+
+/* 스토리 모달 */
+
+.story-modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 50%;
+  height: 80vh;
+  border-radius: 20px;
+  border: 10px solid #58d3b8;
+  background-color: #ffffff;
+}
+
+.modal__title {
+  margin-top: 50px;
+  font-size: 60px;
+  font-weight: lighter;
+  font-family: "온글잎";
+  margin-bottom: 20px;
+}
+
+.modal__video {
+  width: 80%;
+  height: 400px;
+}
+
+.xbutton {
+  position: absolute;
+  top: 85px;
+  right: 405px;
+  width: 25px;
+  height: 25px;
+  opacity: 0.7;
 }

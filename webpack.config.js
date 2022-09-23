@@ -68,6 +68,7 @@ module.exports = {
         { from: "./src/images", to: "./images" },
         { from: "./src/models", to: "./models" },
         { from: "./src/sounds", to: "./sounds" },
+        { from: "./src/font", to: "./font" },
       ],
     }),
   ],

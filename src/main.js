@@ -188,7 +188,7 @@ const BASE_TEXT_IMG_PATH = "/images/";
 
 const spriteAni = [];
 const spriteMesh = [];
-meshList.sprite.map(img => {
+meshList.sprite.map((img) => {
   var texture = textureLoader.load(`${BASE_TEXT_IMG_PATH}${img.path}`);
 
   var box = new THREE.Mesh(
@@ -457,21 +457,25 @@ function draw() {
               console.log("나와");
               sMesh.visible = true;
               spotMesh1.material.color.set("seagreen");
-              if (sMesh.modelMesh.name == "미륵사지석탑") {
+              if (sMesh.name === "미륵사지석탑") {
                 gsap.to(sMesh.modelMesh.position, {
                   // 집 메쉬가
                   duration: 1, // 1초동안
-                  y: 0.8, // y(위로 나오니까)
+                  y: 0.05, // y(위로 나오니까)
                   ease: "Bounce.easeOut", // 재밌게 띠용(라이브러리가 가지고 있는 값)
                 });
-              } else {
-                gsap.to(sMesh.modelMesh.position, {
-                  // 집 메쉬가
-                  duration: 1, // 1초동안
-                  y: 0.02, // y(위로 나오니까)
-                  ease: "Bounce.easeOut", // 재밌게 띠용(라이브러리가 가지고 있는 값)
+                gsap.to(camera.position, {
+                  // 카메라 포지션 변경
+                  duration: 1,
+                  y: 3,
                 });
               }
+              gsap.to(sMesh.modelMesh.position, {
+                // 집 메쉬가
+                duration: 1, // 1초동안
+                y: 0.05, // y(위로 나오니까)
+                ease: "Bounce.easeOut", // 재밌게 띠용(라이브러리가 가지고 있는 값)
+              });
               gsap.to(camera.position, {
                 // 카메라 포지션 변경
                 duration: 1,
