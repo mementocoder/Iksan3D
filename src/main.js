@@ -9,7 +9,7 @@ import gsap from "gsap";
 const description = document.querySelector("#description");
 const startBtn = document.querySelector("#start");
 startBtn.addEventListener("click", e => {
-  description.style.visibility = "hidden";
+  description.style.display = "none";
 });
 
 // Texture - Grid
@@ -427,7 +427,7 @@ function draw() {
             y: 0.3,
             ease: "easeOut",
           });
-          setTimeout(() => (description.style.visibility = "visible"), 4000);
+          setTimeout(() => (description.style.display = "flex"), 4000);
           setTimeout(() => (isClick = "true"), 5000);
         }
       }
