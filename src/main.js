@@ -624,8 +624,8 @@ function draw() {
         if (mouse.y > -0.65 && mouse.y < -0.55) {
           // camera.lookAt(player.modelMesh.position);
 
-          // const bgm = document.querySelector("#bgm");
-          // bgm.play(); //BGM기능
+          const bgm = document.querySelector("#bgm");
+          bgm.play(); //BGM기능
 
           gsap.to(decoMesh[0].position, {
             //원위치
