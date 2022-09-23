@@ -31,7 +31,6 @@ body {
   top: 0;
 }
 .background {
-  visibility: hidden;
   position: fixed;
   top: 0;
   left: 0;
@@ -39,7 +38,7 @@ body {
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.8);
   z-index: 1000;
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
   flex-direction: column;
@@ -70,10 +69,6 @@ body {
   width: 400%;
   height: 100%;
   animation: moveSpritesheet 2s steps(4) infinite;
-}
-.video iframe {
-  width: 80vw;
-  height: 90vh;
 }
 .eventModal {
   position: fixed;
