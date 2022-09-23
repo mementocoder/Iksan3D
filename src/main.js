@@ -133,9 +133,29 @@ scene.add(floorMesh);
 meshes.push(floorMesh);
 
 const meshList = {
-  sprite: [{ path: "start.png", width: 5, height: 5, pX: 0, pY: 0.15, pZ: 0 }],
+  sprite: [{ path: "start.png", width: 5, height: 5, pX: 0, pY: 0.12, pZ: 0 }],
   deco: [
+    { path: "check.png", width: 3, height: 1, pX: 1.24, pY: 0.1, pZ: 2.85 },
+    { path: "check2.png", width: 3, height: 1, pX: 1.24, pY: -0.1, pZ: 2.85 },
     { path: "start2.png", width: 3, height: 3, pX: -1.35, pY: 0.1, pZ: -2.7 },
+    { path: "foot.png", width: 3, height: 3, pX: 3.85, pY: 0.1, pZ: -2.35 },
+    { path: "mesh-deco1.png", width: 3, height: 3, pX: 1.9, pY: 0.1, pZ: -5.5 },
+    {
+      path: "mesh-deco2.png",
+      width: 3,
+      height: 3,
+      pX: -6.3,
+      pY: 0.1,
+      pZ: -0.6,
+    },
+    {
+      path: "mesh-deco3.png",
+      width: 8,
+      height: 8,
+      pX: -10,
+      pY: 0.1,
+      pZ: 5.5,
+    },
   ],
   stand: [
     // { path: "main.png", width: 10, height: 10, pX: 5, pY: 3, pZ: 0 },
@@ -368,19 +388,29 @@ function draw() {
   spriteAni[0].update(1000 * delta);
 
   if (player.mixer) player.mixer.update(delta); // mixer는 애니메이션 때문에 해준거죠. 업데이트 계속 해줘야 애니메이션이 됨
-  // console.log(mouse.x + " " + mouse.y);
+  console.log(mouse.x + " " + mouse.y);
   if (isClick == "false") {
     if (player.modelMesh) {
       // 모델 리소스가 적용(로드)될때까지 기다림
       camera.lookAt(spriteMesh[0].position); // 카메라가 플레이어의 모델 mesh를 바라보게하는거
-      if (mouse.x > -1 && mouse.x < -0.5) {
-        if (mouse.y > -1 && mouse.y < -0.5) {
+      if (mouse.x > -0.2 && mouse.x < -0.1) {
+        if (mouse.y > -0.65 && mouse.y < -0.55) {
           // camera.lookAt(player.modelMesh.position);
 
           // const bgm = document.querySelector("#bgm");
           // bgm.play(); //BGM기능
 
-          description.style.visibility = "visible";
+          gsap.to(decoMesh[0].position, {
+            //원위치
+            duration: 0.5,
+            y: -0.1,
+          });
+          gsap.to(decoMesh[1].position, {
+            //원위치
+            duration: 0.5,
+            y: 0.1,
+          });
+
           gsap.to(camera.position, {
             //원위치
             duration: 4,
@@ -390,18 +420,15 @@ function draw() {
           });
           mouse.x = 0;
           mouse.y = 0;
-          setTimeout(
-            () =>
-              gsap.to(player.modelMesh.position, {
-                //원위치
-                duration: 1,
-                y: 0.3,
-                ease: "Bounce.easeOut",
-              }),
-            1000
-          );
 
-          setTimeout(() => (isClick = "true"), 4000);
+          gsap.to(player.modelMesh.position, {
+            //원위치
+            duration: 3,
+            y: 0.3,
+            ease: "easeOut",
+          });
+          setTimeout(() => (description.style.visibility = "visible"), 4000);
+          setTimeout(() => (isClick = "true"), 5000);
         }
       }
     }
@@ -576,8 +603,8 @@ function checkIntersects() {
       destinationPoint.z = item.point.z;
       player.modelMesh.lookAt(destinationPoint); // 일분이가 마우스 좌표쪽을 바라봄
       player.moving = true; // 움직이는 상태니 true로 해줌
-      // playVideo(item.point.x, item.point.z);
-      playEvent(item.point.x, item.point.z);
+      playVideo(item.point.x, item.point.z);
+      // playEvent(item.point.x, item.point.z);
       console.log(item.point.x + " " + item.point.z);
 
       pointerMesh.position.x = destinationPoint.x; // 일분이 밑 빨간애도 이동시켜줘야하니까
