@@ -293,8 +293,8 @@ const meshList = {
     },
     {
       path: "mesh-deco11.png",
-      width: 5,
-      height: 5,
+      width: 4,
+      height: 6,
       pX: 19,
       pY: 0.1,
       pZ: 20,
