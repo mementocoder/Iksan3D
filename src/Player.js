@@ -4,8 +4,8 @@ export class Player {
   constructor(info) {
     this.moving = false;
 
-    info.gltfLoader.load(info.modelSrc, glb => {
-      glb.scene.traverse(child => {
+    info.gltfLoader.load(info.modelSrc, (glb) => {
+      glb.scene.traverse((child) => {
         if (child.isMesh) {
           child.castShadow = true;
         }
