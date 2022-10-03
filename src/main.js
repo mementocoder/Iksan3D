@@ -8,7 +8,7 @@ import gsap from "gsap";
 // Modal
 const description = document.querySelector("#description");
 const startBtn = document.querySelector("#start");
-startBtn.addEventListener("click", (e) => {
+startBtn.addEventListener("click", e => {
   description.style.visibility = "hidden";
 });
 
@@ -490,7 +490,7 @@ const BASE_TEXT_IMG_PATH = "/images/";
 
 const spriteAni = [];
 const spriteMesh = [];
-meshList.sprite.map((img) => {
+meshList.sprite.map(img => {
   const texture = textureLoader.load(`${BASE_TEXT_IMG_PATH}${img.path}`);
 
   const box = new THREE.Mesh(
@@ -517,7 +517,7 @@ meshList.sprite.map((img) => {
 
 // 그냥 땅바닥 이미지
 const decoMesh = [];
-meshList.deco.map((img) => {
+meshList.deco.map(img => {
   const text = new Meshes(`${BASE_TEXT_IMG_PATH}${img.path}`, textureLoader);
   const _spotMeshText = text.setMesh(
     img.width,
@@ -535,7 +535,7 @@ meshList.deco.map((img) => {
 const gltfLoader = new GLTFLoader();
 // 세운 이미지
 const standMesh = [];
-meshList.stand.map((img) => {
+meshList.stand.map(img => {
   const suktop = new House({
     gltfLoader,
     scene,
@@ -552,7 +552,7 @@ meshList.stand.map((img) => {
 
 // 영역 들어갔을때 뿅 올라오는 이미지
 const storyMesh0 = [];
-meshList.story1.map((img) => {
+meshList.story1.map(img => {
   const suktop = new House({
     gltfLoader,
     scene,
@@ -568,7 +568,7 @@ meshList.story1.map((img) => {
 });
 
 const storyMesh1 = [];
-meshList.story2.map((img) => {
+meshList.story2.map(img => {
   const suktop = new House({
     gltfLoader,
     scene,
@@ -714,8 +714,8 @@ function draw() {
           destinationPoint.z - player.modelMesh.position.z,
           destinationPoint.x - player.modelMesh.position.x
         );
-        player.modelMesh.position.x += Math.cos(angle) * 0.05; //그 좌표를 이용해 이동시킴
-        player.modelMesh.position.z += Math.sin(angle) * 0.05;
+        player.modelMesh.position.x += Math.cos(angle) * 0.03; //그 좌표를 이용해 이동시킴
+        player.modelMesh.position.z += Math.sin(angle) * 0.03;
 
         camera.position.x =
           cameraPosition.x + player.modelMesh.position.x - 1.5; // 일분이가 움직인만큼 카메라도 움직이게 함. 카메라가 계속 따라 움직임 그래서 화면에 고정돼보이는거.
@@ -733,7 +733,7 @@ function draw() {
           console.log("멈춤");
         }
         // spot메쉬(노란색)에 진입할때
-        storyMesh0.forEach((sMesh) => {
+        storyMesh0.forEach(sMesh => {
           if (
             Math.abs(spotMesh1.position.x - player.modelMesh.position.x) < 4 &&
             Math.abs(spotMesh1.position.z - player.modelMesh.position.z) < 4
@@ -777,7 +777,7 @@ function draw() {
             });
           }
         });
-        storyMesh1.forEach((sMesh) => {
+        storyMesh1.forEach(sMesh => {
           if (
             Math.abs(spotMesh2.position.x - player.modelMesh.position.x) < 4 &&
             Math.abs(spotMesh2.position.z - player.modelMesh.position.z) < 4
@@ -843,7 +843,7 @@ function playVideo(x, z) {
         mouse.x = 0;
         mouse.y = 0;
         played = "true";
-        first.addEventListener("click", (e) => {
+        first.addEventListener("click", e => {
           first.style.display = "none";
           setTimeout(() => (played = "false"), 3000);
         });
@@ -858,7 +858,7 @@ function playVideo(x, z) {
         mouse.x = 0;
         mouse.y = 0;
         played = "true";
-        second.addEventListener("click", (e) => {
+        second.addEventListener("click", e => {
           second.style.display = "none";
           setTimeout(() => (played = "false"), 3000);
         });
@@ -948,7 +948,7 @@ function raycasting() {
 }
 
 // 마우스 이벤트
-canvas.addEventListener("mousedown", (e) => {
+canvas.addEventListener("mousedown", e => {
   //마우스 눌렀을 때
   isPressed = true;
 
@@ -959,7 +959,7 @@ canvas.addEventListener("mouseup", () => {
   // 마우스 땠을 때
   isPressed = false;
 });
-canvas.addEventListener("mousemove", (e) => {
+canvas.addEventListener("mousemove", e => {
   // 마우스를 움직일때
   if (isPressed) {
     // 근데 누른 상태일 때
@@ -968,7 +968,7 @@ canvas.addEventListener("mousemove", (e) => {
 });
 
 // 터치 이벤트 - 마우스랑 똑같다
-canvas.addEventListener("touchstart", (e) => {
+canvas.addEventListener("touchstart", e => {
   // 기기 선택했을때
   isPressed = true;
   calculateMousePosition(e.touches[0]); // 마우스랑 다른점은 배열형태(손가락 터치 처음한 애(사람은 다섯손가락이니까))
@@ -976,7 +976,7 @@ canvas.addEventListener("touchstart", (e) => {
 canvas.addEventListener("touchend", () => {
   isPressed = false;
 });
-canvas.addEventListener("touchmove", (e) => {
+canvas.addEventListener("touchmove", e => {
   if (isPressed) {
     calculateMousePosition(e.touches[0]);
   }
