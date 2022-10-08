@@ -1,0 +1,6 @@
+동고도리 filter=lfs diff=lfs merge=lfs -text
+동고도리.glb filter=lfs diff=lfs merge=lfs -text
+동고도리비석.glb filter=lfs diff=lfs merge=lfs -text
+미륵사지석.glb filter=lfs diff=lfs merge=lfs -text
+미륵사지.glb filter=lfs diff=lfs merge=lfs -text
+익산3D.gif filter=lfs diff=lfs merge=lfs -text
